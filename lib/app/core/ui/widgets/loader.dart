@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Loader {
+  Loader._();
+  
   static OverlayEntry? _overlayEntry;
   static void show(BuildContext context) {
     if (_overlayEntry != null) return;

@@ -1,5 +1,5 @@
 import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
-import 'package:chaty_app/app/core/ui/widgets/loader_widget.dart';
+import 'package:chaty_app/app/core/ui/widgets/loader.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_state.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/widgets/signup_button.dart';
@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _cubit = context.read<LoginCubit>();
-    },);
+    });
     super.initState();
   }
 
@@ -32,7 +32,12 @@ class _LoginPageState extends State<LoginPage> {
       listener: (context, state) {
         state.maybeWhen(
           loading: () => Loader.show(context),
-          loaded: () => Loader.hide(),
+          loaded: (){
+            Loader.hide();
+            Navigator.of(
+              context,
+            ).pushNamedAndRemoveUntil('/conversation', (route) => false);
+          },
           orElse: () {},
         );
       },
@@ -48,13 +53,8 @@ class _LoginPageState extends State<LoginPage> {
                 PasswordTextFormField(controller: TextEditingController()),
                 AppButton.primary(
                   title: 'Acessar',
-                  onPressed: () async{
+                  onPressed: () async {
                     _cubit.login(email: 'email', password: 'password');
-
-                    // Navigator.of(context).pushNamedAndRemoveUntil(
-                    //   '/conversation',
-                    //   (route) => false,
-                    // );
                   },
                 ),
                 SignupButton(),
