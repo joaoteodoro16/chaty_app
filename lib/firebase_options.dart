@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -9,6 +10,7 @@ class DefaultFirebaseOptions {
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
+
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
@@ -38,6 +40,7 @@ class DefaultFirebaseOptions {
         );
     }
   }
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAJKNBUQzbMPifE6SvZ2qJX2eBJcwQ1q1M',
     appId: '1:486956293149:android:199f760a8ef9773ec8faf4',
