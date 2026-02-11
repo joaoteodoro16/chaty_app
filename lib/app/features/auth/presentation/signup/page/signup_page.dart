@@ -72,6 +72,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                     ]),
                   ),
+                  const SizedBox(height: 10),
                   EmailTextFormField(controller: _emailEC, isRequired: true),
                   const SizedBox(height: 10),
                   PasswordTextFormField(controller: _passwordEC),

@@ -1,5 +1,6 @@
 import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
+import 'package:chaty_app/app/core/ui/widgets/messager.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_state.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/widgets/signup_button.dart';
@@ -51,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
           },
           error: (message) {
             Loader.hide();
+            context.toastError(message);
           },
           orElse: () {},
         );

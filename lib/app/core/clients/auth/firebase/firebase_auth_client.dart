@@ -44,7 +44,7 @@ class FirebaseAuthClient implements AuthClient {
       );
       return credential;
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'user-not-found' || e.code == "invalid-credential") {
         throw GenericException(message: "Email ou senha inválidos!");
       } else if (e.code == 'wrong-password') {
         throw GenericException(message: "Email ou senha inválidos!");
