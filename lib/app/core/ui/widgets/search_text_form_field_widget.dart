@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class SearchTextFormFieldWidget extends StatelessWidget {
@@ -19,7 +20,9 @@ class SearchTextFormFieldWidget extends StatelessWidget {
           hintText: hint,
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(7)),
           contentPadding: EdgeInsets.all(2),
-          hintStyle: TextStyle(color: const Color.fromARGB(255, 167, 167, 167)),
+          hintStyle: context.textStyles.textRegular.copyWith(
+            color: const Color.fromARGB(255, 167, 167, 167),
+          ),
         ),
       ),
     );

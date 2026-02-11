@@ -1,4 +1,5 @@
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppButton extends StatelessWidget {
@@ -50,7 +51,13 @@ class AppButton extends StatelessWidget {
             borderRadius: BorderRadiusGeometry.circular(10),
           ),
         ),
-        child: Text(title, style: TextStyle(color: titleColor, fontSize: 18)),
+        child: Text(
+          title,
+          style: context.textStyles.textRegular.copyWith(
+            fontSize: 18,
+            color: titleColor,
+          ),
+        ),
       ),
     );
   }

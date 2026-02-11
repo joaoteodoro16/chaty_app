@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ContactItemListWidget extends StatelessWidget {
@@ -21,16 +22,15 @@ class ContactItemListWidget extends StatelessWidget {
                 children: [
                   Text(
                     'Cleisinho',
-                    style: TextStyle(
+                    style: context.textStyles.textMedium.copyWith(
                       color: Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
 
                   Text(
                     'Sei que nada sei 😂',
-                    style: TextStyle(
+                    style: context.textStyles.textRegular.copyWith(
                       color: const Color.fromARGB(255, 184, 184, 184),
                       fontSize: 13,
                     ),

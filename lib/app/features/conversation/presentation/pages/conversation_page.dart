@@ -1,4 +1,5 @@
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/features/conversation/presentation/widgets/conversations_list_widget.dart';
 import 'package:chaty_app/app/core/ui/widgets/search_text_form_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -38,10 +39,9 @@ class ConversationPage extends StatelessWidget {
             children: [
               Text(
                 'Conversas',
-                style: TextStyle(
+                style: context.textStyles.textRegular.copyWith(
                   color: Colors.white,
                   fontSize: 30,
-                  fontWeight: FontWeight.w600,
                 ),
               ),
               const SizedBox(height: 8),

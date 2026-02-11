@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/widgets/search_text_form_field_widget.dart';
 import 'package:chaty_app/app/features/contact/presentation/widgets/add_contact_button_widget.dart';
 import 'package:chaty_app/app/features/contact/presentation/widgets/contact_item_list_widget.dart';
@@ -9,7 +10,9 @@ class ContactsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Contatos')),
+      appBar: AppBar(
+        title: Text('Contatos', style: context.textStyles.textRegular),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -21,7 +24,8 @@ class ContactsPage extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 physics: const AlwaysScrollableScrollPhysics(),
-                keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                keyboardDismissBehavior:
+                    ScrollViewKeyboardDismissBehavior.onDrag,
                 itemBuilder: (context, index) {
                   return ContactItemListWidget();
                 },

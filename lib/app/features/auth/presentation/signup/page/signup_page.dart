@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
 import 'package:chaty_app/app/core/ui/widgets/app_text_form_field.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
@@ -37,7 +38,7 @@ class _SignupPageState extends State<SignupPage> {
       listener: (context, state) {
         state.maybeWhen(
           loading: () => Loader.show(context),
-          loaded: (){
+          loaded: () {
             Loader.hide();
             Navigator.of(context).pop();
           },
@@ -59,7 +60,7 @@ class _SignupPageState extends State<SignupPage> {
                   Image.asset('assets/images/logo.png'),
                   Text(
                     'Criar minha conta',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                    style: context.textStyles.textMedium.copyWith(fontSize: 18),
                   ),
                   AppTextFormField(
                     label: 'Como deseja ser chamado',

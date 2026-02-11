@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/features/chat/presentation/widgets/chat_list_widget.dart';
 import 'package:chaty_app/app/features/chat/presentation/widgets/input_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class ChatPage extends StatelessWidget {
             ),
             Text(
               'Cleisinho',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: context.textStyles.textRegular.copyWith(color: Colors.white, fontSize: 16),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AppTextFormField extends StatefulWidget {
@@ -35,14 +36,17 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
       validator: widget.validator,
       controller: widget.controller,
       obscureText: widget.obscureText ? !_showPassword : false,
-      style: TextStyle(color: Colors.white, fontSize: 16),
+      style: context.textStyles.textRegular.copyWith(
+        fontSize: 16,
+        color: Colors.white,
+      ),
       decoration: InputDecoration(
         hintText: widget.label,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.error),
         ),
-        hintStyle: TextStyle(color: Colors.white),
+        hintStyle: context.textStyles.textRegular.copyWith(color: Colors.white),
         prefixIcon: widget.prefixIcon != null
             ? Icon(widget.prefixIcon, color: AppColors.primary)
             : null,

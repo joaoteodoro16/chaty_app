@@ -1,4 +1,5 @@
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class AddContactButtonWidget extends StatelessWidget {
@@ -22,9 +23,8 @@ class AddContactButtonWidget extends StatelessWidget {
               Icon(Icons.person, color: AppColors.primary),
               Text(
                 'Adicionar contato',
-                style: TextStyle(
+                style: context.textStyles.textBold.copyWith(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
               ),

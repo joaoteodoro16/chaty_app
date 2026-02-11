@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
 class ConversationItemList extends StatelessWidget {
@@ -24,15 +25,14 @@ class ConversationItemList extends StatelessWidget {
                     children: [
                       Text(
                         'Cleisinho',
-                        style: TextStyle(
+                        style: context.textStyles.textMedium.copyWith(
                           color: Colors.white,
                           fontSize: 16,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                       Text(
                         '10:00',
-                        style: TextStyle(
+                        style: context.textStyles.textRegular.copyWith(
                           color: const Color.fromARGB(255, 184, 184, 184),
                           fontSize: 13,
                         ),
@@ -41,7 +41,7 @@ class ConversationItemList extends StatelessWidget {
                   ),
                   Text(
                     'Hoje eu vou na academia sim',
-                    style: TextStyle(
+                    style: context.textStyles.textRegular.copyWith(
                       color: const Color.fromARGB(255, 184, 184, 184),
                       fontSize: 13,
                     ),
