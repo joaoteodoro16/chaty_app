@@ -18,6 +18,10 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   late LoginCubit _cubit;
 
+  final _formKey = GlobalKey<FormState>();
+  final _emailEC = TextEditingController();
+  final _passwordEC = TextEditingController();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
@@ -27,38 +31,55 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   @override
+  void dispose() {
+    _emailEC.dispose();
+    _passwordEC.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         state.maybeWhen(
           loading: () => Loader.show(context),
-          loaded: (){
+          loaded: () {
             Loader.hide();
             Navigator.of(
               context,
             ).pushNamedAndRemoveUntil('/conversation', (route) => false);
           },
+          error: (message) {
+            Loader.hide();
+          },
           orElse: () {},
         );
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(12),
-            child: Column(
-              spacing: 15,
-              children: [
-                Image.asset('assets/images/logo.png'),
-                EmailTextFormField(controller: TextEditingController()),
-                PasswordTextFormField(controller: TextEditingController()),
-                AppButton.primary(
-                  title: 'Acessar',
-                  onPressed: () async {
-                    _cubit.login(email: 'email', password: 'password');
-                  },
-                ),
-                SignupButton(),
-              ],
+        body: Form(
+          key: _formKey,
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Column(
+                spacing: 15,
+                children: [
+                  Image.asset('assets/images/logo.png'),
+                  EmailTextFormField(controller: _emailEC),
+                  PasswordTextFormField(controller: _passwordEC),
+                  AppButton.primary(
+                    title: 'Acessar',
+                    onPressed: () async {
+                      final validate =
+                          _formKey.currentState?.validate() ?? false;
+                      if (validate) {
+                        _cubit.login(email: _emailEC.text, password: _passwordEC. text);
+                      }
+                    },
+                  ),
+                  SignupButton(),
+                ],
+              ),
             ),
           ),
         ),

@@ -8,7 +8,9 @@ class AppProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [Provider(create: (context) => Object())],
+      providers: [
+        Provider(create: (context) => Object(),)
+      ],
       child: child,
     );
   }

@@ -2,18 +2,18 @@ import 'package:chaty_app/app/core/domain/value_objects/email.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
 
 class UserAccount {
-  final String id;
+  final String? id;
   final String _name;
   final Email _email;
 
   // Construtor privado
-  UserAccount._({required this.id, required String name, required Email email})
+  UserAccount._({this.id, required String name, required Email email})
       : _name = name,
         _email = email;
 
   // Factory que valida antes de criar
   factory UserAccount({
-    required String id,
+    String? id,
     required String name,
     required Email email,
   }) {

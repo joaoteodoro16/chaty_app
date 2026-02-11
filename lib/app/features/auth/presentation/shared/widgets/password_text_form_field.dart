@@ -10,7 +10,6 @@ class PasswordTextFormField extends AppTextFormField {
     this.validateLength = false,
     super.controller,
     super.label = 'Senha',
-    super.isRequerid  
   }) : super(
          obscureText: true,
          validator: Validatorless.multiple(_buildValidators(validateLength)),

@@ -1,3 +1,5 @@
+import 'package:chaty_app/app/core/clients/auth/auth_client.dart';
+import 'package:chaty_app/app/core/clients/auth/firebase/firebase_auth_client.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/remote/contract/auth_remote_datasource.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/remote/impl/auth_remote_datasource_impl.dart';
 import 'package:chaty_app/app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -15,8 +17,9 @@ class LoginProvider {
 
   static Widget get provider => MultiProvider(
     providers: [
+      Provider<AuthClient>(create: (context) => FirebaseAuthClient()),
       Provider<AuthRemoteDatasource>(
-        create: (context) => AuthRemoteDatasourceImpl(),
+        create: (context) => AuthRemoteDatasourceImpl(authClient: context.read()),
       ),
       Provider<AuthRepository>(
         create: (context) => AuthRepositoryImpl(remote: context.read()),
