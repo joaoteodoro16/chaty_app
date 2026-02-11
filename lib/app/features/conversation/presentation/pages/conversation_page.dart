@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/features/conversation/presentation/widgets/conversations_list_widget.dart';
@@ -21,7 +22,7 @@ class ConversationPage extends StatelessWidget {
               backgroundColor: AppColors.primary,
               child: IconButton(
                 onPressed: () {
-                  Navigator.of(context).pushNamed('/contacts');
+                  Navigator.of(context).pushNamed(AppRoutes.contactsPageRoute);
                 },
                 iconSize: 15,
                 padding: EdgeInsets.zero,

@@ -1,5 +1,7 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
+import 'package:chaty_app/app/core/ui/widgets/logo_app_widget.dart';
 import 'package:chaty_app/app/core/ui/widgets/messager.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_cubit.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_state.dart';
@@ -48,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
             Loader.hide();
             Navigator.of(
               context,
-            ).pushNamedAndRemoveUntil('/conversation', (route) => false);
+            ).pushNamedAndRemoveUntil(AppRoutes.conversationsPageRoute, (route) => false);
           },
           error: (message) {
             Loader.hide();
@@ -66,7 +68,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 spacing: 15,
                 children: [
-                  Image.asset('assets/images/logo.png'),
+                  LogoAppWidget(),
                   EmailTextFormField(controller: _emailEC),
                   PasswordTextFormField(controller: _passwordEC),
                   AppButton.primary(

@@ -2,6 +2,7 @@ import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
 import 'package:chaty_app/app/core/ui/widgets/app_text_form_field.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
+import 'package:chaty_app/app/core/ui/widgets/logo_app_widget.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/params/signup_params.dart';
 import 'package:chaty_app/app/features/auth/presentation/shared/widgets/email_text_form_field.dart';
 import 'package:chaty_app/app/features/auth/presentation/shared/widgets/password_text_form_field.dart';
@@ -57,7 +58,7 @@ class _SignupPageState extends State<SignupPage> {
               padding: const EdgeInsets.all(12),
               child: Column(
                 children: [
-                  Image.asset('assets/images/logo.png'),
+                  LogoAppWidget(),
                   Text(
                     'Criar minha conta',
                     style: context.textStyles.textMedium.copyWith(fontSize: 18),

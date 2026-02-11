@@ -1,11 +1,7 @@
 import 'package:chaty_app/app/core/di/app_provider.dart';
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
-import 'package:chaty_app/app/features/auth/di/login_provider.dart';
-import 'package:chaty_app/app/features/auth/di/signup_provider.dart';
-import 'package:chaty_app/app/features/chat/di/chat_provider.dart';
-import 'package:chaty_app/app/features/contact/di/contacts_provider.dart';
-import 'package:chaty_app/app/features/conversation/di/conversation_provider.dart';
 import 'package:flutter/material.dart';
 
 class ChattyApp extends StatelessWidget {
@@ -26,13 +22,7 @@ class ChattyApp extends StatelessWidget {
             iconTheme: IconThemeData(color: Colors.white),
           ),
         ),
-        routes: {
-          "/": (context) => LoginProvider.provider,
-          "/signup": (context) => SignupProvider.provider,
-          '/conversation': (context) => ConversationProvider.provider,
-          '/chat': (context) => ChatProvider.provider,
-          '/contacts': (context) => ContactsProvider.provider,
-        },
+        routes: AppRoutes.routes,
       ),
     );
   }

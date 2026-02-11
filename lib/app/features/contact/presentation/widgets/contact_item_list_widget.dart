@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +9,7 @@ class ContactItemListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/chat');
+        Navigator.of(context).pushNamed(AppRoutes.chatPageRoute);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
