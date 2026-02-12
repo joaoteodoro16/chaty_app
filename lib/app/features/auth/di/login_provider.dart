@@ -1,11 +1,3 @@
-import 'package:chaty_app/app/core/clients/auth/auth_client.dart';
-import 'package:chaty_app/app/core/clients/auth/firebase/firebase_auth_client.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/local/contract/auth_local_datasource.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/local/impl/auth_local_datasource_impl.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/remote/contract/auth_remote_datasource.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/remote/impl/auth_remote_datasource_impl.dart';
-import 'package:chaty_app/app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:chaty_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/contracts/login_usecase.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/impl/login_usecase_impl.dart';
 import 'package:chaty_app/app/features/auth/presentation/login/cubit/login_cubit.dart';
@@ -19,14 +11,6 @@ class LoginProvider {
 
   static Widget get provider => MultiProvider(
     providers: [
-      Provider<AuthClient>(create: (context) => FirebaseAuthClient()),
-      Provider<AuthRemoteDatasource>(
-        create: (context) => AuthRemoteDatasourceImpl(authClient: context.read()),
-      ),
-      Provider<AuthLocalDatasource>(create: (context) => AuthLocalDatasourceImpl(preferences: context.read()),),
-      Provider<AuthRepository>(
-        create: (context) => AuthRepositoryImpl(remote: context.read(), local: context.read()),
-      ),
       Provider<LoginUsecase>(
         create: (context) => LoginUsecaseImpl(authRepository: context.read()),
       ),

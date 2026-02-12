@@ -6,7 +6,7 @@ import 'package:chaty_app/app/features/user/models/user_document_model.dart';
 class UserRemoteDatasourceImpl implements UserRemoteDatasource {
   final CloudClient _cloud;
 
-  UserRemoteDatasourceImpl(this._cloud);
+  UserRemoteDatasourceImpl({required CloudClient cloud}) : _cloud = cloud;
 
   @override
   Future<void> upsertUser(UserDocumentModel user) async {

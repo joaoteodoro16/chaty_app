@@ -1,21 +1,21 @@
 class UserDocumentModel {
-  final String id;
+  final String? id;
   final String email;
   final String name;
-  final DateTime? createdAt;
+  final DateTime createdAt;
 
   UserDocumentModel({
-    required this.id,
+    this.id,
     required this.email,
     required this.name,
-    required this.createdAt,
-  });
+    DateTime? createdAt,
+  }) : createdAt = DateTime.now();
 
   Map<String, dynamic> toMap() {
     return {
-      'email': email.trim().toLowerCase(), 
+      'email': email.trim().toLowerCase(),
       'name': name,
-      if (createdAt != null) 'createdAt': createdAt,
+      'createdAt': createdAt,
     };
   }
 

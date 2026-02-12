@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class SignupButton extends StatelessWidget {
@@ -14,7 +15,7 @@ class SignupButton extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            Navigator.of(context).pushNamed('/signup');
+            Navigator.of(context).pushNamed(AppRoutes.signupPageRoute);
           },
           child: Text(
             'Criar uma agora',

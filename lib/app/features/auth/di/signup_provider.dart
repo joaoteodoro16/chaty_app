@@ -1,15 +1,11 @@
-import 'package:chaty_app/app/core/clients/auth/auth_client.dart';
-import 'package:chaty_app/app/core/clients/auth/firebase/firebase_auth_client.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/local/contract/auth_local_datasource.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/local/impl/auth_local_datasource_impl.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/remote/contract/auth_remote_datasource.dart';
-import 'package:chaty_app/app/features/auth/data/datasources/remote/impl/auth_remote_datasource_impl.dart';
-import 'package:chaty_app/app/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:chaty_app/app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/contracts/signup_usecase.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/impl/signup_usecase_impl.dart';
 import 'package:chaty_app/app/features/auth/presentation/signup/cubit/signup_cubit.dart';
 import 'package:chaty_app/app/features/auth/presentation/signup/page/signup_page.dart';
+import 'package:chaty_app/app/features/user/data/datasources/contracts/user_remote_datasource.dart';
+import 'package:chaty_app/app/features/user/data/datasources/impl/user_remote_datasource_impl.dart';
+import 'package:chaty_app/app/features/user/data/repositories/user_repository_impl.dart';
+import 'package:chaty_app/app/features/user/domain/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
@@ -19,21 +15,17 @@ class SignupProvider {
 
   static Widget get provider => MultiProvider(
     providers: [
-      Provider<AuthClient>(create: (context) => FirebaseAuthClient()),
-      Provider<AuthRemoteDatasource>(
-        create: (context) =>
-            AuthRemoteDatasourceImpl(authClient: context.read()),
+      Provider<UserRemoteDatasource>(
+        create: (context) => UserRemoteDatasourceImpl(cloud: context.read()),
       ),
-      Provider<AuthLocalDatasource>(
-        create: (context) =>
-            AuthLocalDatasourceImpl(preferences: context.read()),
-      ),
-      Provider<AuthRepository>(
-        create: (context) =>
-            AuthRepositoryImpl(remote: context.read(), local: context.read()),
+      Provider<UserRepository>(
+        create: (context) => UserRepositoryImpl(remote: context.read()),
       ),
       Provider<SignupUsecase>(
-        create: (context) => SignupUsecaseImpl(authRepository: context.read()),
+        create: (context) => SignupUsecaseImpl(
+          authRepository: context.read(),
+          userRepository: context.read(),
+        ),
       ),
       BlocProvider(
         create: (context) => SignupCubit(signupUsecase: context.read()),
