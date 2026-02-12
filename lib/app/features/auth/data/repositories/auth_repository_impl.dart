@@ -1,4 +1,4 @@
-import 'package:chaty_app/app/core/domain/entities/user_account.dart';
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:chaty_app/app/core/domain/value_objects/email.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/local/contract/auth_local_datasource.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/remote/contract/auth_remote_datasource.dart';

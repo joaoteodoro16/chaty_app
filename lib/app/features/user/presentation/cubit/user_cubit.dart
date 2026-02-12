@@ -1,5 +1,5 @@
-import 'package:chaty_app/app/core/domain/entities/user_account.dart';
-import 'package:chaty_app/app/core/domain/usecases/contracts/get_user_logged_usecase.dart';
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
+import 'package:chaty_app/app/features/auth/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/contracts/get_user_by_id_usecase.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/contracts/upsert_user_usecase.dart';

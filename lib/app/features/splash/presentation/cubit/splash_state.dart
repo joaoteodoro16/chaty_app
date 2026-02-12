@@ -1,4 +1,4 @@
-import 'package:chaty_app/app/core/domain/entities/user_account.dart';
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'splash_state.freezed.dart';

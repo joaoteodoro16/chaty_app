@@ -22,7 +22,7 @@ class FirebaseCloudClient implements CloudClient {
   Future<Map<String, dynamic>?> getDoc({required String path}) async {
     final snap = await _db.doc(path).get();
     if (!snap.exists) return null;
-    return _normalize(snap.data()!);
+    return _normalize(snap.data() ?? {});
   }
 
   @override
@@ -43,15 +43,6 @@ class FirebaseCloudClient implements CloudClient {
         .toList();
   }
 
-  Map<String, dynamic> _normalize(Map<String, dynamic> data) {
-    return data.map((key, value) {
-      if (value is Timestamp) {
-        return MapEntry(key, value.toDate());
-      }
-      return MapEntry(key, value);
-    });
-  }
-
   @override
   Future<List<CloudDoc>> getCollection({required String collectionPath}) async {
     final snapshot = await _db.collection(collectionPath).get();
@@ -60,9 +51,51 @@ class FirebaseCloudClient implements CloudClient {
         .map((doc) => CloudDoc(id: doc.id, data: _normalize(doc.data())))
         .toList();
   }
-  
+
   @override
   Future<void> deleteDoc({required String path}) async {
     await _db.doc(path).delete();
+  }
+
+  @override
+  Future<String> addDoc({
+    required String collectionPath,
+    required Map<String, dynamic> data,
+  }) async {
+    final ref = await _db.collection(collectionPath).add(data);
+    return ref.id;
+  }
+
+  @override
+  Stream<List<CloudDoc>> collectionStream({
+    required String collectionPath,
+    String? orderByField,
+    bool descending = false,
+    int? limit,
+  }) {
+    Query<Map<String, dynamic>> query = _db.collection(collectionPath);
+
+    if (orderByField != null && orderByField.isNotEmpty) {
+      query = query.orderBy(orderByField, descending: descending);
+    }
+
+    if (limit != null) {
+      query = query.limit(limit);
+    }
+
+    return query.snapshots().map((snapshot) {
+      return snapshot.docs
+          .map((doc) => CloudDoc(id: doc.id, data: _normalize(doc.data())))
+          .toList();
+    });
+  }
+
+  Map<String, dynamic> _normalize(Map<String, dynamic> data) {
+    return data.map((key, value) {
+      if (value is Timestamp) {
+        return MapEntry(key, value.toDate());
+      }
+      return MapEntry(key, value);
+    });
   }
 }

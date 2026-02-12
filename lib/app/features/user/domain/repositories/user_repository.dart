@@ -1,4 +1,4 @@
-import 'package:chaty_app/app/core/domain/entities/user_account.dart';
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:chaty_app/app/features/user/models/user_document_model.dart';
 
 abstract class UserRepository {

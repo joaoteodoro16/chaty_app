@@ -1,4 +1,4 @@
-import 'package:chaty_app/app/core/domain/usecases/contracts/get_user_logged_usecase.dart';
+import 'package:chaty_app/app/features/auth/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
 import 'package:chaty_app/app/features/contact/domain/usecases/contracts/upsert_contact_usecase.dart';
 import 'package:chaty_app/app/features/contact/domain/usecases/params/save_contact_params.dart';

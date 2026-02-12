@@ -15,8 +15,24 @@ abstract class CloudClient {
   });
 
   Future<List<CloudDoc>> getCollection({required String collectionPath});
+
   Future<void> deleteDoc({required String path});
+
+  /// ✅ novo: stream de coleção em tempo real
+  Stream<List<CloudDoc>> collectionStream({
+    required String collectionPath,
+    String? orderByField,
+    bool descending = false,
+    int? limit,
+  });
+
+  /// ✅ novo: add com id automático (pra messageId)
+  Future<String> addDoc({
+    required String collectionPath,
+    required Map<String, dynamic> data,
+  });
 }
+
 
 class CloudDoc {
   final String id;
