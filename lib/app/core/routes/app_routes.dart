@@ -2,6 +2,7 @@ import 'package:chaty_app/app/features/auth/di/login_provider.dart';
 import 'package:chaty_app/app/features/auth/di/signup_provider.dart';
 import 'package:chaty_app/app/features/chat/di/chat_provider.dart';
 import 'package:chaty_app/app/features/contact/di/contacts_provider.dart';
+import 'package:chaty_app/app/features/contact/di/create_contact_provider.dart';
 import 'package:chaty_app/app/features/conversation/di/conversation_provider.dart';
 import 'package:chaty_app/app/features/splash/di/splash_provider.dart';
 import 'package:chaty_app/app/features/user/di/user_provider.dart';
@@ -15,6 +16,7 @@ class AppRoutes {
   static String get signupPageRoute => "/auth/signup";
   static String get conversationsPageRoute => "/conversation";
   static String get contactsPageRoute => "/contacts";
+  static String get createContactPageRoute => "/contacts/create";
   static String get chatPageRoute => "/chat";
   static String get userPageRoute => "/user";
 
@@ -26,5 +28,6 @@ class AppRoutes {
     chatPageRoute: (context) => ChatProvider.provider,
     contactsPageRoute: (context) => ContactsProvider.provider,
     userPageRoute: (context) => UserProvider.providers,
+    createContactPageRoute: (context) => CreateContactProvider.provider
   };
 }

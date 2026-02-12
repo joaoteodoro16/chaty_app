@@ -51,4 +51,18 @@ class FirebaseCloudClient implements CloudClient {
       return MapEntry(key, value);
     });
   }
+
+  @override
+  Future<List<CloudDoc>> getCollection({required String collectionPath}) async {
+    final snapshot = await _db.collection(collectionPath).get();
+
+    return snapshot.docs
+        .map((doc) => CloudDoc(id: doc.id, data: _normalize(doc.data())))
+        .toList();
+  }
+  
+  @override
+  Future<void> deleteDoc({required String path}) async {
+    await _db.doc(path).delete();
+  }
 }

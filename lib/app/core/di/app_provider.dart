@@ -2,6 +2,8 @@ import 'package:chaty_app/app/core/clients/auth/auth_client.dart';
 import 'package:chaty_app/app/core/clients/auth/firebase/firebase_auth_client.dart';
 import 'package:chaty_app/app/core/clients/cloud/cloud_client.dart';
 import 'package:chaty_app/app/core/clients/cloud/firebase/firebase_firestore_client.dart';
+import 'package:chaty_app/app/core/domain/usecases/contracts/get_user_logged_usecase.dart';
+import 'package:chaty_app/app/core/domain/usecases/impl/get_user_logged_usecase_impl.dart';
 import 'package:chaty_app/app/core/persistence/shared_preferences/app_shared_preferences.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/local/contract/auth_local_datasource.dart';
 import 'package:chaty_app/app/features/auth/data/datasources/local/impl/auth_local_datasource_impl.dart';
@@ -27,7 +29,8 @@ class AppProvider extends StatelessWidget {
         Provider<AuthClient>(create: (context) => FirebaseAuthClient(),),
         Provider<AuthRemoteDatasource>(create: (context) => AuthRemoteDatasourceImpl(authClient: context.read()),),
         Provider<AuthLocalDatasource>(create: (context) => AuthLocalDatasourceImpl(preferences: context.read()),),
-        Provider<AuthRepository>(create: (context) => AuthRepositoryImpl(remote: context.read(), local: context.read()),)
+        Provider<AuthRepository>(create: (context) => AuthRepositoryImpl(remote: context.read(), local: context.read()),),
+        Provider<GetUserLoggedUsecase>(create: (context) => GetUserLoggedUsecaseImpl(authRepository: context.read()),)
       ],
       child: child,
     );

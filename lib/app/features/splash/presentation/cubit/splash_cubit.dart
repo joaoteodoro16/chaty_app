@@ -1,5 +1,5 @@
+import 'package:chaty_app/app/core/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
-import 'package:chaty_app/app/features/splash/domain/usecases/contract/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/features/splash/presentation/cubit/splash_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

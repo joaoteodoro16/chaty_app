@@ -1,6 +1,9 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
+import 'package:chaty_app/app/features/contact/presentation/list/cubit/contact_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddContactButtonWidget extends StatelessWidget {
   const AddContactButtonWidget({super.key});
@@ -8,7 +11,11 @@ class AddContactButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () async {
+        final cubit = context.read<ContactCubit>();
+        await Navigator.of(context).pushNamed(AppRoutes.createContactPageRoute);
+        cubit.getContacts();
+      },
       child: Container(
         height: 40,
         decoration: BoxDecoration(

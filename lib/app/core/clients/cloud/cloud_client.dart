@@ -13,6 +13,9 @@ abstract class CloudClient {
     required Object? isEqualTo,
     int limit = 1,
   });
+
+  Future<List<CloudDoc>> getCollection({required String collectionPath});
+  Future<void> deleteDoc({required String path});
 }
 
 class CloudDoc {

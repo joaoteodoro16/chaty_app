@@ -1,5 +1,3 @@
-import 'package:chaty_app/app/features/splash/domain/usecases/contract/get_user_logged_usecase.dart';
-import 'package:chaty_app/app/features/splash/domain/usecases/contract/get_user_logged_usecase_impl.dart';
 import 'package:chaty_app/app/features/splash/presentation/cubit/splash_cubit.dart';
 import 'package:chaty_app/app/features/splash/presentation/page/splash_page.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +9,6 @@ class SplashProvider {
 
   static Widget get provider => MultiProvider(
     providers: [
-      Provider<GetUserLoggedUsecase>(create: (context) => GetUserLoggedUsecaseImpl(repository: context.read()),),
       BlocProvider(
         create: (context) => SplashCubit(getUserLoggedUsecase: context.read()),
       ),

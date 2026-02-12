@@ -11,3 +11,7 @@ class GenericException extends AppException {
 class ArgumentException extends AppException {
   ArgumentException({required super.message});
 }
+
+class UserNotFoundException extends AppException{
+  UserNotFoundException({required super.message});
+}

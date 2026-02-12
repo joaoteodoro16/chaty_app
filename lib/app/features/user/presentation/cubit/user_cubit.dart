@@ -1,13 +1,15 @@
 import 'package:chaty_app/app/core/domain/entities/user_account.dart';
+import 'package:chaty_app/app/core/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/contracts/get_user_by_id_usecase.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/contracts/upsert_user_usecase.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/params/save_user_params.dart';
-import 'package:chaty_app/app/features/user/presentation/bloc/user_state.dart';
+import 'package:chaty_app/app/features/user/presentation/cubit/user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserCubit extends Cubit<UserState> {
   final UpsertUserUsecase _upsertUserUsecase;
+  final GetUserLoggedUsecase _getUserLoggedUsecase;
   final GetUserByIdUsecase _getUserByIdUsecase;
 
   UserAccount? _currentUser;
@@ -15,14 +17,17 @@ class UserCubit extends Cubit<UserState> {
   UserCubit({
     required UpsertUserUsecase upsertUsecase,
     required GetUserByIdUsecase getUserByIdUsecase,
+    required GetUserLoggedUsecase getUserLoggedUsecase,
   }) : _upsertUserUsecase = upsertUsecase,
        _getUserByIdUsecase = getUserByIdUsecase,
+       _getUserLoggedUsecase = getUserLoggedUsecase,
        super(UserState.initial());
 
   Future<void> getUser() async {
     try {
       emit(UserState.loading());
-      final user = await _getUserByIdUsecase.call();
+      final userLogged = await _getUserLoggedUsecase.call();
+      final user = await _getUserByIdUsecase.call(userId: userLogged.id!);
       _currentUser = user;
       emit(UserState.loadedUser(user: user));
     } on AppException catch (e) {

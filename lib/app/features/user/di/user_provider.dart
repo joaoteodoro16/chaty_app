@@ -6,7 +6,7 @@ import 'package:chaty_app/app/features/user/domain/usecases/contracts/get_user_b
 import 'package:chaty_app/app/features/user/domain/usecases/contracts/upsert_user_usecase.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/impl/get_user_by_id_usecase_impl.dart';
 import 'package:chaty_app/app/features/user/domain/usecases/impl/upsert_user_usecase_impl.dart';
-import 'package:chaty_app/app/features/user/presentation/bloc/user_cubit.dart';
+import 'package:chaty_app/app/features/user/presentation/cubit/user_cubit.dart';
 import 'package:chaty_app/app/features/user/presentation/page/user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,22 +21,24 @@ class UserProvider {
         create: (context) => UserRemoteDatasourceImpl(cloud: context.read()),
       ),
       Provider<UserRepository>(
-        create: (context) => UserRepositoryImpl(remote: context.read(), authLocalDatasource: context.read()),
+        create: (context) => UserRepositoryImpl(
+          remote: context.read(),
+          authLocalDatasource: context.read(),
+        ),
       ),
       Provider<UpsertUserUsecase>(
         create: (context) =>
             UpsertUserUsecaseImpl(userRepository: context.read()),
       ),
       Provider<GetUserByIdUsecase>(
-        create: (context) => GetUserByIdUsecaseImpl(
-          authRepository: context.read(),
-          userRepository: context.read(),
-        ),
+        create: (context) =>
+            GetUserByIdUsecaseImpl(userRepository: context.read()),
       ),
       BlocProvider(
         create: (context) => UserCubit(
           upsertUsecase: context.read(),
           getUserByIdUsecase: context.read(),
+          getUserLoggedUsecase: context.read()
         ),
       ),
     ],
