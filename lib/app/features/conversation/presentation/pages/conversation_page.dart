@@ -1,12 +1,12 @@
 import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
-import 'package:chaty_app/app/core/ui/widgets/app_button.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
 import 'package:chaty_app/app/core/ui/widgets/messager.dart';
 import 'package:chaty_app/app/features/conversation/presentation/cubit/conversation_cubit.dart';
 import 'package:chaty_app/app/features/conversation/presentation/cubit/conversation_state.dart';
 import 'package:chaty_app/app/features/conversation/presentation/widgets/conversation_button_app_bar_widget.dart';
+import 'package:chaty_app/app/features/conversation/presentation/widgets/conversation_drawer_widget.dart';
 import 'package:chaty_app/app/features/conversation/presentation/widgets/conversations_list_widget.dart';
 import 'package:chaty_app/app/core/ui/widgets/search_text_form_field_widget.dart';
 import 'package:flutter/material.dart';
@@ -36,18 +36,7 @@ class ConversationPage extends StatelessWidget {
         );
       },
       child: Scaffold(
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              AppButton.primary(
-                title: 'Sair',
-                onPressed: () {
-                  context.read<ConversationCubit>().logout();
-                },
-              ),
-            ],
-          ),
-        ),
+        drawer: ConversationDrawerWidget(),
         backgroundColor: AppColors.primaryBackGround,
         appBar: AppBar(
           backgroundColor: AppColors.primaryBackGround,
@@ -56,12 +45,6 @@ class ConversationPage extends StatelessWidget {
               icon: Icons.add,
               onPressed: () {
                 Navigator.of(context).pushNamed(AppRoutes.contactsPageRoute);
-              },
-            ),
-            ConversationButtonAppBarWidget(
-              icon: Icons.person,
-              onPressed: () {
-                Navigator.of(context).pushNamed(AppRoutes.userPageRoute);
               },
             ),
           ],
