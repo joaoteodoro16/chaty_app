@@ -41,6 +41,9 @@ class _ContactsPageState extends State<ContactsPage> {
           deletedContact: () {
             Loader.hide();
           },
+          openChat: (conversationId) {
+            
+          },
           orElse: () {},
         );
       },
