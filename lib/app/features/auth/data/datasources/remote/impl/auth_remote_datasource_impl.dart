@@ -60,4 +60,9 @@ class AuthRemoteDatasourceImpl extends AuthRemoteDatasource {
     );
     return signupUserAccount;
   }
+  
+  @override
+  Future<void> logout() async{
+    await _authClient.logout();
+  }
 }

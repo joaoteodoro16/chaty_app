@@ -64,4 +64,10 @@ class AuthRepositoryImpl extends AuthRepository {
       email: Email.tryCreate(userLogged.email)!,
     );
   }
+  
+  @override
+  Future<void> logout() async{
+    await _local.clearUserLoggedLocal();
+    await _remote.logout();
+  }
 }

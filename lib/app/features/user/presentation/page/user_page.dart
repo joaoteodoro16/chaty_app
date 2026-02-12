@@ -3,11 +3,13 @@ import 'package:chaty_app/app/core/ui/widgets/app_text_form_field.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
 import 'package:chaty_app/app/core/ui/widgets/messager.dart';
 import 'package:chaty_app/app/features/auth/presentation/shared/widgets/email_text_form_field.dart';
+import 'package:chaty_app/app/features/user/domain/usecases/params/save_user_params.dart';
 import 'package:chaty_app/app/features/user/presentation/bloc/user_cubit.dart';
 import 'package:chaty_app/app/features/user/presentation/bloc/user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
+import 'package:validatorless/validatorless.dart';
 
 class UserPage extends StatefulWidget {
   const UserPage({super.key});
@@ -51,6 +53,10 @@ class _UserPageState extends State<UserPage> {
             Loader.hide();
             context.toastError(message);
           },
+          save: (message) {
+            Loader.hide();
+            context.toastSuccess(message);
+          },
           orElse: () {},
         );
       },
@@ -65,13 +71,21 @@ class _UserPageState extends State<UserPage> {
               children: [
                 CircleAvatar(radius: 50, child: Icon(Icons.person, size: 40)),
                 const SizedBox(height: 10),
-                AppTextFormField(label: 'Nome', controller: _nameEC),
-                EmailTextFormField(controller: _emailEC),
+                AppTextFormField(
+                  label: 'Nome',
+                  controller: _nameEC,
+                  validator: Validatorless.required('Campo obrigatório'),
+                ),
+                EmailTextFormField(controller: _emailEC, enabled: false),
                 AppButton.primary(
                   title: 'Salvar',
                   onPressed: () {
                     final validate = _formKey.currentState?.validate() ?? false;
-                    if (validate) {}
+                    if (validate) {
+                      context.read<UserCubit>().save(
+                        params: SaveUserParams(name: _nameEC.text),
+                      );
+                    }
                   },
                 ),
               ],

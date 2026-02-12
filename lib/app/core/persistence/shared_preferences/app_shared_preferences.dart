@@ -20,4 +20,11 @@ class AppSharedPreferences {
       return null;
     }
   }
+
+  Future<void> clearKey({required String key})async{
+    await _setInstance();
+    instance.remove(key);
+  }
+
+
 }

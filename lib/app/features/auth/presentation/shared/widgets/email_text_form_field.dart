@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
 class EmailTextFormField extends AppTextFormField {
-  EmailTextFormField({super.key, required TextEditingController controller, bool isRequired = false})
+  EmailTextFormField({super.key,super.enabled, required TextEditingController controller, bool isRequired = false})
     : super(
         controller: controller,
         validator: Validatorless.multiple([

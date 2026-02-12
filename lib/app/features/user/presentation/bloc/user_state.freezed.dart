@@ -131,13 +131,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserAccount user)?  loadedUser,TResult Function()?  save,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserAccount user)?  loadedUser,TResult Function( String message)?  save,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
 return loading();case _LoadedUserState() when loadedUser != null:
 return loadedUser(_that.user);case _SaveState() when save != null:
-return save();case _ErroState() when error != null:
+return save(_that.message);case _ErroState() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -156,13 +156,13 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserAccount user)  loadedUser,required TResult Function()  save,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserAccount user)  loadedUser,required TResult Function( String message)  save,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _InitialState():
 return initial();case _LoadingState():
 return loading();case _LoadedUserState():
 return loadedUser(_that.user);case _SaveState():
-return save();case _ErroState():
+return save(_that.message);case _ErroState():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -180,13 +180,13 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserAccount user)?  loadedUser,TResult? Function()?  save,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserAccount user)?  loadedUser,TResult? Function( String message)?  save,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
 return loading();case _LoadedUserState() when loadedUser != null:
 return loadedUser(_that.user);case _SaveState() when save != null:
-return save();case _ErroState() when error != null:
+return save(_that.message);case _ErroState() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -329,33 +329,67 @@ as UserAccount,
 
 
 class _SaveState implements UserState {
-   _SaveState();
+   _SaveState({required this.message});
   
 
+ final  String message;
 
-
+/// Create a copy of UserState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SaveStateCopyWith<_SaveState> get copyWith => __$SaveStateCopyWithImpl<_SaveState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaveState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaveState&&(identical(other.message, message) || other.message == message));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,message);
 
 @override
 String toString() {
-  return 'UserState.save()';
+  return 'UserState.save(message: $message)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$SaveStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
+  factory _$SaveStateCopyWith(_SaveState value, $Res Function(_SaveState) _then) = __$SaveStateCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
 
 
+
+
+}
+/// @nodoc
+class __$SaveStateCopyWithImpl<$Res>
+    implements _$SaveStateCopyWith<$Res> {
+  __$SaveStateCopyWithImpl(this._self, this._then);
+
+  final _SaveState _self;
+  final $Res Function(_SaveState) _then;
+
+/// Create a copy of UserState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(_SaveState(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

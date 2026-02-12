@@ -21,7 +21,7 @@ class UserProvider {
         create: (context) => UserRemoteDatasourceImpl(cloud: context.read()),
       ),
       Provider<UserRepository>(
-        create: (context) => UserRepositoryImpl(remote: context.read()),
+        create: (context) => UserRepositoryImpl(remote: context.read(), authLocalDatasource: context.read()),
       ),
       Provider<UpsertUserUsecase>(
         create: (context) =>

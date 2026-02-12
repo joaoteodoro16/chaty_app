@@ -28,4 +28,9 @@ class AuthLocalDatasourceImpl extends AuthLocalDatasource {
 
     return LoggedUserModel.fromJson(json);
   }
+  
+  @override
+  Future<void> clearUserLoggedLocal() async{
+    await _preferences.clearKey(key: SharedPreferencesKeys.userLoggedKey);
+  }
 }

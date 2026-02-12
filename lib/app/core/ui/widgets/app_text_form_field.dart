@@ -10,6 +10,7 @@ class AppTextFormField extends StatefulWidget {
   final IconData? prefixIcon;
   final bool isRequerid;
   final TextInputType textInputType;
+  final bool enabled;
 
   const AppTextFormField({
     super.key,
@@ -20,6 +21,7 @@ class AppTextFormField extends StatefulWidget {
     this.validator,
     this.isRequerid = false,
     this.textInputType = TextInputType.text,
+    this.enabled = true
   });
 
   @override
@@ -28,6 +30,7 @@ class AppTextFormField extends StatefulWidget {
 
 class _AppTextFormFieldState extends State<AppTextFormField> {
   bool _showPassword = false;
+  final _defaultBorder = OutlineInputBorder(borderRadius: BorderRadius.circular(10));
 
   @override
   Widget build(BuildContext context) {
@@ -40,12 +43,12 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         fontSize: 16,
         color: Colors.white,
       ),
+      enabled: widget.enabled,
       decoration: InputDecoration(
         hintText: widget.label,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-        errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.error),
-        ),
+        border: _defaultBorder,
+        errorBorder: _defaultBorder.copyWith(borderSide: BorderSide(color: AppColors.error)),
+        disabledBorder: _defaultBorder.copyWith(borderSide: BorderSide(color: const Color.fromARGB(255, 44, 44, 44))),
         hintStyle: context.textStyles.textRegular.copyWith(color: Colors.white),
         prefixIcon: widget.prefixIcon != null
             ? Icon(widget.prefixIcon, color: AppColors.primary)

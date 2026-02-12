@@ -5,4 +5,5 @@ import 'package:chaty_app/app/features/auth/data/dtos/signup_user_account_reques
 abstract class AuthRemoteDatasource {
   Future<LoginUserAccountDto> login({required String email, required String password});
   Future<SignupUserAccountDto> signup({required SignupUserAccountRequestDto userRequest});
+  Future<void> logout();
 }

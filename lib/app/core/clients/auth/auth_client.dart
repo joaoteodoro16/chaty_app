@@ -9,4 +9,6 @@ abstract interface class AuthClient {
   Future<UserCredential> authWithEmailAndPassword({required String email, required String password});
 
   Future<void> updateUserDisplayName({required String newName});
+
+  Future<void> logout();
 }

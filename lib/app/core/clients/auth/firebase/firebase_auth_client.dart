@@ -59,4 +59,9 @@ class FirebaseAuthClient implements AuthClient {
     await user?.updateDisplayName(newName);
     await user?.reload();
   }
+  
+  @override
+  Future<void> logout() async{
+    await firebaseInstance.signOut();
+  }
 }

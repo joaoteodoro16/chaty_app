@@ -8,6 +8,6 @@ abstract class UserState with _$UserState {
    factory UserState.initial() = _InitialState;
    factory UserState.loading() = _LoadingState;
    factory UserState.loadedUser({required UserAccount user}) = _LoadedUserState;
-   factory UserState.save() = _SaveState;
+   factory UserState.save({required String message}) = _SaveState;
    factory UserState.error({required String message}) = _ErroState;
 }

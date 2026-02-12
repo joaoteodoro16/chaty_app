@@ -22,8 +22,8 @@ class GetUserByIdUsecaseImpl extends GetUserByIdUsecase {
         message: "Ocorreu um erro inesperado ao buscar a sessão atual",
       );
     }
-
     final user = await _userRepository.getUserById(userAccountLogged.id!);
     return user!;
   }
+  
 }

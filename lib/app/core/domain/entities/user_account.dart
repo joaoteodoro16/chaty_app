@@ -6,12 +6,10 @@ class UserAccount {
   final String _name;
   final Email _email;
 
-  // Construtor privado
   UserAccount._({this.id, required String name, required Email email})
       : _name = name,
         _email = email;
 
-  // Factory que valida antes de criar
   factory UserAccount({
     String? id,
     required String name,
@@ -19,25 +17,36 @@ class UserAccount {
   }) {
     final trimmed = name.trim();
     if (trimmed.isEmpty || trimmed.length > 100) {
-      throw ArgumentException(message: "Nome deve conter entre 1 e 100 caracteres");
+      throw ArgumentException(
+        message: "Nome deve conter entre 1 e 100 caracteres",
+      );
     }
-    
+
     return UserAccount._(id: id, name: trimmed, email: email);
   }
 
   String get name => _name;
   Email get email => _email;
 
-  // Retorna uma nova instância (imutabilidade)
+  /// copyWith "seguro": passa pela factory (revalida invariantes)
+  UserAccount copyWith({
+    String? id,
+    String? name,
+    Email? email,
+  }) {
+    return UserAccount(
+      id: id ?? this.id,
+      name: name ?? _name,
+      email: email ?? _email,
+    );
+  }
+
+  /// Método de domínio (sem vazar regra pra fora)
   UserAccount rename(String newName) {
-    final trimmed = newName.trim();
-    if (trimmed.isEmpty || trimmed.length > 100) {
-      throw ArgumentException(message: "Nome deve conter entre 1 e 100 caracteres");
-    }
-    return UserAccount._(id: id, name: trimmed, email: _email);
+    return copyWith(name: newName);
   }
 
   UserAccount changeEmail(Email newEmail) {
-    return UserAccount._(id: id, name: _name, email: newEmail);
+    return copyWith(email: newEmail);
   }
 }
