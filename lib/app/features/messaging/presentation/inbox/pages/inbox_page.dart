@@ -47,7 +47,7 @@ class _InboxPageState extends State<InboxPage> {
         );
       },
       child: Scaffold(
-        drawer: InboxDrawerWidget(userLogged: widget.userLogged,),
+        drawer: InboxDrawerWidget(userLogged: widget.userLogged),
         backgroundColor: AppColors.primaryBackGround,
         appBar: AppBar(
           backgroundColor: AppColors.primaryBackGround,

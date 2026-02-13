@@ -1,5 +1,6 @@
 import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
+import 'package:chaty_app/app/core/ui/widgets/confirm_dialog_widget.dart';
 import 'package:chaty_app/app/features/contact/domain/entities/contact.dart';
 import 'package:chaty_app/app/features/contact/presentation/list/cubit/contact_cubit.dart';
 import 'package:flutter/material.dart';
@@ -63,28 +64,49 @@ class ContactItemListWidget extends StatelessWidget {
                       cubit.getContacts();
                       break;
                     case _ContactAction.delete:
-                      _showDeleteDialog(context, contact);
+                      ConfirmDialogWidget.show(
+                        context: context,
+                        title: 'Excluir contato',
+                        description:
+                            'Tem certeza que deseja excluir ${contact.name}?',
+                        onYes: () {
+                          Navigator.pop(context);
+                          context.read<ContactCubit>().deleteContact(
+                            contactUserId: contact.contactUserId,
+                          );
+                        },
+                      );
                       break;
                   }
                 },
                 itemBuilder: (context) => [
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _ContactAction.edit,
                     child: Row(
                       children: [
                         Icon(Icons.edit, size: 18),
                         SizedBox(width: 8),
-                        Text('Editar'),
+                        Text(
+                          'Editar',
+                          style: context.textStyles.textRegular.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                  const PopupMenuItem(
+                  PopupMenuItem(
                     value: _ContactAction.delete,
                     child: Row(
                       children: [
                         Icon(Icons.delete, size: 18, color: Colors.red),
                         SizedBox(width: 8),
-                        Text('Excluir'),
+                        Text(
+                          'Excluir',
+                          style: context.textStyles.textRegular.copyWith(
+                            fontSize: 16,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -93,31 +115,6 @@ class ContactItemListWidget extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showDeleteDialog(BuildContext context, Contact contact) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: const Text('Excluir contato'),
-        content: Text('Tem certeza que deseja excluir ${contact.name}?'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              context.read<ContactCubit>().deleteContact(
-                contactUserId: contact.contactUserId,
-              );
-            },
-            child: const Text('Excluir', style: TextStyle(color: Colors.red)),
-          ),
-        ],
       ),
     );
   }

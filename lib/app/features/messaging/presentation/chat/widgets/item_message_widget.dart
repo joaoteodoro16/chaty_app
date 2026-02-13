@@ -1,5 +1,6 @@
 import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
+import 'package:chaty_app/app/core/ui/util/date_time_formatter.dart';
 import 'package:flutter/material.dart';
 
 class ItemMessageWidget extends StatelessWidget {
@@ -13,12 +14,6 @@ class ItemMessageWidget extends StatelessWidget {
     required this.text,
     required this.sentAt,
   });
-
-  String _formatHour(DateTime dt) {
-    final h = dt.hour.toString().padLeft(2, '0');
-    final m = dt.minute.toString().padLeft(2, '0');
-    return '$h:$m';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +43,7 @@ class ItemMessageWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Text(
-                      _formatHour(sentAt),
+                      DateTimeFormatter.formatHour(sentAt),
                       style: context.textStyles.textRegular
                           .copyWith(color: Colors.white, fontSize: 12),
                     ),
