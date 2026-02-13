@@ -25,7 +25,6 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     final convoId = _conversationIdFor(myUid, otherUid);
     final convoPath = 'conversations/$convoId';
 
-
     final existing = await _cloud.getDoc(path: convoPath);
     if (existing != null) return convoId;
 
@@ -72,7 +71,8 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
   }) {
     return _cloud
         .collectionStream(
-          collectionPath: 'users/$myUid/conversations/$conversationId/messages/',
+          collectionPath:
+              'users/$myUid/conversations/$conversationId/messages/',
           orderByField: 'sentAt',
           descending: true,
           limit: limit,
@@ -119,10 +119,10 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
         data: messageData,
       ),
       _cloud.setDoc(
-        path: 'users/$otherUid/conversations/$conversationId/messages/$idMessage',
+        path:
+            'users/$otherUid/conversations/$conversationId/messages/$idMessage',
         data: messageData,
       ),
-      
 
       _cloud.setDoc(
         path: 'conversations/$conversationId',
@@ -133,7 +133,7 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
         },
         merge: true,
       ),
-      
+
       // Inbox do meu usuário
       _cloud.setDoc(
         path: 'users/$myUid/conversations/$conversationId',
@@ -146,7 +146,7 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
         },
         merge: true,
       ),
-      
+
       // Inbox do outro usuário
       _cloud.setDoc(
         path: 'users/$otherUid/conversations/$conversationId',
@@ -167,17 +167,7 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     required String myUid,
     required String conversationId,
   }) async {
-    final conversationPath = 'users/$myUid/conversations/$conversationId';
-    final messagesPath = '$conversationPath/messages';
-    try {
-      await Future.wait([
-        _cloud.deleteDoc(path: messagesPath),
-        _cloud.deleteDoc(path: conversationPath),
-      ]);
-    } catch (e) {
-      // Fallback sequencial se deleteCollection não existir
-      await _cloud.deleteDoc(path: messagesPath);
-      await _cloud.deleteDoc(path: conversationPath);
-    }
+    // Deleta apenas o documento da conversa
+    await _cloud.deleteDoc(path: 'users/$myUid/conversations/$conversationId');
   }
 }
