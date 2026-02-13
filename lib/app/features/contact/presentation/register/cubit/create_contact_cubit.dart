@@ -17,7 +17,7 @@ class CreateContactCubit extends Cubit<CreateContactState> {
     try {
       emit(CreateContactState.loading());
       final userLogged = await _getUserLoggedUsecase.call();
-      await _upsertContactUsecase.call(contact: saveContact, userId: userLogged.id!);
+      await _upsertContactUsecase.call(contact: saveContact, userId: userLogged!.id!);
       emit(CreateContactState.save());
     } on AppException catch (e) {
       emit(CreateContactState.error(message: e.message));

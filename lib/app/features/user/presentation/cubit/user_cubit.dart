@@ -27,7 +27,7 @@ class UserCubit extends Cubit<UserState> {
     try {
       emit(UserState.loading());
       final userLogged = await _getUserLoggedUsecase.call();
-      final user = await _getUserByIdUsecase.call(userId: userLogged.id!);
+      final user = await _getUserByIdUsecase.call(userId: userLogged!.id!);
       _currentUser = user;
       emit(UserState.loadedUser(user: user));
     } on AppException catch (e) {

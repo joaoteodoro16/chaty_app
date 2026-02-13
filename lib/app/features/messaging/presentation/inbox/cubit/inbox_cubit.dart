@@ -30,7 +30,7 @@ class InboxCubit extends Cubit<InboxState> {
 
       await _subscription?.cancel();
         final userLogged = await _getUserLoggedUsecase.call();
-      _subscription = _watchUserConversationsUsecase(userId: userLogged.id!).listen(
+      _subscription = _watchUserConversationsUsecase(userId: userLogged!.id!).listen(
         (conversations) {
           emit(InboxState.loaded(conversations: conversations));
         },

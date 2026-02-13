@@ -27,7 +27,7 @@ class ContactCubit extends Cubit<ContactState> {
     try {
       emit(ContactState.loading());
       final userLogged = await _getUserLoggedUsecase.call();
-      final contacts = await _getContactsUsecase.call(userId: userLogged.id!);
+      final contacts = await _getContactsUsecase.call(userId: userLogged!.id!);
       emit(ContactState.loaded(contacts: contacts));
     } on AppException catch (e) {
       emit(ContactState.error(message: e.message));
@@ -45,7 +45,7 @@ class ContactCubit extends Cubit<ContactState> {
       emit(ContactState.loading());
       final userLogged = await _getUserLoggedUsecase.call();
       await _deleteContactUsecase.call(
-        userId: userLogged.id!,
+        userId: userLogged!.id!,
         contactUserId: contactUserId,
       );
       emit(ContactState.deletedContact());
@@ -69,7 +69,7 @@ class ContactCubit extends Cubit<ContactState> {
       final userLogged = await _getUserLoggedUsecase.call();
 
       final conversationId = await _getOrCreateConversationUsecase.call(
-        myUid: userLogged.id!,
+        myUid: userLogged!.id!,
         otherUid: contactUserId,
         myName: userLogged.name, 
         otherName: contactName,

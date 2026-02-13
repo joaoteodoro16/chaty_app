@@ -1,6 +1,5 @@
 import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:chaty_app/app/features/auth/domain/usecases/contracts/get_user_logged_usecase.dart';
-import 'package:chaty_app/app/core/exceptions/exeptions.dart';
 import 'package:chaty_app/app/features/auth/domain/repositories/auth_repository.dart';
 
 class GetUserLoggedUsecaseImpl extends GetUserLoggedUsecase {
@@ -10,9 +9,8 @@ class GetUserLoggedUsecaseImpl extends GetUserLoggedUsecase {
     : _authRepository = authRepository;
 
   @override
-  Future<UserAccount> call() async {
+  Future<UserAccount?> call() async {
     final user = await _authRepository.getUserLogged();
-    if(user == null) throw GenericException(message: "Houve um problema ao buscar a sessão atual");
     return user;
   }
 }
