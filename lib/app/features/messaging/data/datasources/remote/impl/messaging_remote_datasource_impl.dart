@@ -3,6 +3,7 @@ import 'package:chaty_app/app/features/messaging/data/datasources/remote/contrac
 import 'package:chaty_app/app/features/messaging/data/models/conversation_document_model.dart';
 import 'package:chaty_app/app/features/messaging/data/models/message_document_model.dart';
 import 'package:chaty_app/app/features/messaging/data/models/user_conversation_document_model.dart';
+import 'package:chaty_app/app/features/messaging/data/models/user_message_document_model.dart';
 
 class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
   final CloudClient _cloud;
@@ -21,7 +22,6 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     required String myName,
     required String otherName,
   }) async {
-
     //Gera um id para a conversa com base no id de quem esta enviando e quem esta recebendo
     final convoId = _conversationIdFor(myUid, otherUid);
     final convoPath = 'conversations/$convoId';
@@ -43,11 +43,7 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     );
 
     //Grava o documento base
-    await _cloud.setDoc(
-      path: convoPath,
-      data: convoDoc.toMap(),
-      merge: false,
-    );
+    await _cloud.setDoc(path: convoPath, data: convoDoc.toMap(), merge: false);
 
     //Espelha o documento da conversa para ambos os usuarios trocando os ids das propiedades
     final myInbox = UserConversationDocumentModel(
@@ -85,7 +81,6 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     return convoId;
   }
 
-
   //Esse método é responsável por criar a stream que vai ficar lendo quando tiver alterações no path de conversas do usuario
   @override
   Stream<List<UserConversationDocumentModel>> watchUserConversations({
@@ -99,9 +94,11 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
           descending: true,
           limit: limit,
         )
-        .map((docs) => docs
-            .map((d) => UserConversationDocumentModel.fromMap(d.id, d.data))
-            .toList());
+        .map(
+          (docs) => docs
+              .map((d) => UserConversationDocumentModel.fromMap(d.id, d.data))
+              .toList(),
+        );
   }
 
   //Esse método é responsavel por criar a Stream que vai ficar lendo as alterações nas mensagens de cada conversa
@@ -114,14 +111,15 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
         .collectionStream(
           collectionPath: 'conversations/$conversationId/messages',
           orderByField: 'sentAt',
-          descending: true, 
+          descending: true,
           limit: limit,
         )
-        .map((docs) => docs
-            .map((d) => MessageDocumentModel.fromMap(d.id, d.data))
-            .toList());
+        .map(
+          (docs) => docs
+              .map((d) => MessageDocumentModel.fromMap(d.id, d.data))
+              .toList(),
+        );
   }
-
 
   @override
   Future<void> sendMessage({
@@ -156,23 +154,37 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
       merge: true,
     );
 
+    //Inserindo mensagem na conversa do meu usuário
+    await _cloud.setDoc(
+      path: 'users/$myUid/conversations/$conversationId/messages',
+      data: UserMessageDocumentModel(
+        id: '',
+        senderId: myUid,
+        text: text,
+        sentAt: now,
+      ).toMap(),
+    );
+
     // 3) atualiza inbox (espelho) dos dois
     await _cloud.setDoc(
       path: 'users/$myUid/conversations/$conversationId',
-      data: {
-        'lastMessage': trimmed,
-        'lastMessageAt': now,
-      },
+      data: {'lastMessage': trimmed, 'lastMessageAt': now},
       merge: true,
     );
 
     await _cloud.setDoc(
       path: 'users/$otherUid/conversations/$conversationId',
-      data: {
-        'lastMessage': trimmed,
-        'lastMessageAt': now,
-      },
+      data: {'lastMessage': trimmed, 'lastMessageAt': now},
       merge: true,
     );
+  }
+
+  @override
+  Future<void> deleteConversation({
+    required String myUid,
+    required conversationId,
+  }) async {
+    final path = "users/$myUid/conversations/$conversationId";
+    await _cloud.deleteDoc(path: path);
   }
 }

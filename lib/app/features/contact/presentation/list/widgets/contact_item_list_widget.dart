@@ -64,18 +64,18 @@ class ContactItemListWidget extends StatelessWidget {
                       cubit.getContacts();
                       break;
                     case _ContactAction.delete:
-                      ConfirmDialogWidget.show(
+                      final cubit = context.read<ContactCubit>();
+                      final result = await ConfirmDialogWidget.show(
                         context: context,
                         title: 'Excluir contato',
                         description:
                             'Tem certeza que deseja excluir ${contact.name}?',
-                        onYes: () {
-                          Navigator.pop(context);
-                          context.read<ContactCubit>().deleteContact(
-                            contactUserId: contact.contactUserId,
-                          );
-                        },
                       );
+                      if (result ?? false) {
+                        cubit.deleteContact(
+                          contactUserId: contact.contactUserId,
+                        );
+                      }
                       break;
                   }
                 },

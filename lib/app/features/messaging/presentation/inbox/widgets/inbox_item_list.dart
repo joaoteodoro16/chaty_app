@@ -4,8 +4,10 @@ import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/util/date_time_formatter.dart';
 import 'package:chaty_app/app/core/ui/widgets/confirm_dialog_widget.dart';
 import 'package:chaty_app/app/features/messaging/domain/entities/user_conversation.dart';
+import 'package:chaty_app/app/features/messaging/presentation/inbox/cubit/inbox_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:provider/provider.dart';
 
 class InboxItemList extends StatelessWidget {
   final UserConversation conversation;
@@ -18,13 +20,19 @@ class InboxItemList extends StatelessWidget {
         motion: ScrollMotion(),
         children: [
           SlidableAction(
-            onPressed: (context) {
-              ConfirmDialogWidget.show(
+            onPressed: (context) async {
+              final cubit = context.read<InboxCubit>();
+              final confirmed = await ConfirmDialogWidget.show(
                 context: context,
-                description: 'Deseja realmente excluir essa conversa?',
                 title: 'Excluir conversa',
-                onYes: () {},
+                description: 'Deseja realmente excluir essa conversa?',
               );
+
+              if (confirmed == true) {
+                cubit.deleteConversation(
+                  conversationId: conversation.conversationId,
+                );
+              }
             },
             backgroundColor: AppColors.error,
             foregroundColor: Colors.white,

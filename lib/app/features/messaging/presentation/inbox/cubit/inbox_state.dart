@@ -7,6 +7,7 @@ part 'inbox_state.freezed.dart';
 abstract class InboxState with _$InboxState {
   factory InboxState.initial() = _InitialState;
   factory InboxState.loading() = _LoadingState;
+  factory InboxState.deleteMessaging() = _DeleteMessagingState;
 
   factory InboxState.loaded({required List<UserConversation> conversations}) =
       _LoadedState;

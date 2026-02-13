@@ -1,5 +1,3 @@
-
-
 import 'package:chaty_app/app/features/messaging/data/datasources/remote/contracts/messaging_remote_datasource.dart';
 import 'package:chaty_app/app/features/messaging/data/models/message_document_model.dart';
 import 'package:chaty_app/app/features/messaging/data/models/user_conversation_document_model.dart';
@@ -10,7 +8,8 @@ import 'package:chaty_app/app/features/messaging/domain/repositories/messaging_r
 class MessagingRepositoryImpl implements MessagingRepository {
   final MessagingRemoteDatasource _remote;
 
-  MessagingRepositoryImpl({required MessagingRemoteDatasource remote}) : _remote = remote;
+  MessagingRepositoryImpl({required MessagingRemoteDatasource remote})
+    : _remote = remote;
 
   @override
   Future<String> getOrCreateConversation({
@@ -80,6 +79,17 @@ class MessagingRepositoryImpl implements MessagingRepository {
       senderId: doc.senderId,
       text: doc.text,
       sentAt: doc.sentAt,
+    );
+  }
+
+  @override
+  Future<void> deleteConversation({
+    required String myUid,
+    required conversationId,
+  }) async {
+    await _remote.deleteConversation(
+      myUid: myUid,
+      conversationId: conversationId,
     );
   }
 }

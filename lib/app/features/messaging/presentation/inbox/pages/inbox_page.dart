@@ -43,6 +43,10 @@ class _InboxPageState extends State<InboxPage> {
             Loader.hide();
             context.toastError(message);
           },
+          deleteMessaging: () {
+            Loader.hide();
+            context.read<InboxCubit>().subscribe();
+          },
           orElse: () {},
         );
       },

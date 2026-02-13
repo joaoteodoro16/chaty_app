@@ -29,4 +29,6 @@ abstract class MessagingRemoteDatasource {
     required String otherUid,
     required String text,
   });
+
+  Future<void> deleteConversation({required String myUid, required conversationId});
 }

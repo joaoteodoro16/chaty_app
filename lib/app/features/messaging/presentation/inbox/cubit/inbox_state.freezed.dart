@@ -55,12 +55,13 @@ extension InboxStatePatterns on InboxState {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _InitialState value)?  initial,TResult Function( _LoadingState value)?  loading,TResult Function( _LoadedState value)?  loaded,TResult Function( _ErrorState value)?  erro,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _InitialState value)?  initial,TResult Function( _LoadingState value)?  loading,TResult Function( _DeleteMessagingState value)?  deleteMessaging,TResult Function( _LoadedState value)?  loaded,TResult Function( _ErrorState value)?  erro,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial(_that);case _LoadingState() when loading != null:
-return loading(_that);case _LoadedState() when loaded != null:
+return loading(_that);case _DeleteMessagingState() when deleteMessaging != null:
+return deleteMessaging(_that);case _LoadedState() when loaded != null:
 return loaded(_that);case _ErrorState() when erro != null:
 return erro(_that);case _:
   return orElse();
@@ -80,12 +81,13 @@ return erro(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _InitialState value)  initial,required TResult Function( _LoadingState value)  loading,required TResult Function( _LoadedState value)  loaded,required TResult Function( _ErrorState value)  erro,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _InitialState value)  initial,required TResult Function( _LoadingState value)  loading,required TResult Function( _DeleteMessagingState value)  deleteMessaging,required TResult Function( _LoadedState value)  loaded,required TResult Function( _ErrorState value)  erro,}){
 final _that = this;
 switch (_that) {
 case _InitialState():
 return initial(_that);case _LoadingState():
-return loading(_that);case _LoadedState():
+return loading(_that);case _DeleteMessagingState():
+return deleteMessaging(_that);case _LoadedState():
 return loaded(_that);case _ErrorState():
 return erro(_that);case _:
   throw StateError('Unexpected subclass');
@@ -104,12 +106,13 @@ return erro(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _InitialState value)?  initial,TResult? Function( _LoadingState value)?  loading,TResult? Function( _LoadedState value)?  loaded,TResult? Function( _ErrorState value)?  erro,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _InitialState value)?  initial,TResult? Function( _LoadingState value)?  loading,TResult? Function( _DeleteMessagingState value)?  deleteMessaging,TResult? Function( _LoadedState value)?  loaded,TResult? Function( _ErrorState value)?  erro,}){
 final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial(_that);case _LoadingState() when loading != null:
-return loading(_that);case _LoadedState() when loaded != null:
+return loading(_that);case _DeleteMessagingState() when deleteMessaging != null:
+return deleteMessaging(_that);case _LoadedState() when loaded != null:
 return loaded(_that);case _ErrorState() when erro != null:
 return erro(_that);case _:
   return null;
@@ -128,11 +131,12 @@ return erro(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<UserConversation> conversations)?  loaded,TResult Function( String message)?  erro,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  deleteMessaging,TResult Function( List<UserConversation> conversations)?  loaded,TResult Function( String message)?  erro,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
-return loading();case _LoadedState() when loaded != null:
+return loading();case _DeleteMessagingState() when deleteMessaging != null:
+return deleteMessaging();case _LoadedState() when loaded != null:
 return loaded(_that.conversations);case _ErrorState() when erro != null:
 return erro(_that.message);case _:
   return orElse();
@@ -152,11 +156,12 @@ return erro(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<UserConversation> conversations)  loaded,required TResult Function( String message)  erro,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  deleteMessaging,required TResult Function( List<UserConversation> conversations)  loaded,required TResult Function( String message)  erro,}) {final _that = this;
 switch (_that) {
 case _InitialState():
 return initial();case _LoadingState():
-return loading();case _LoadedState():
+return loading();case _DeleteMessagingState():
+return deleteMessaging();case _LoadedState():
 return loaded(_that.conversations);case _ErrorState():
 return erro(_that.message);case _:
   throw StateError('Unexpected subclass');
@@ -175,11 +180,12 @@ return erro(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<UserConversation> conversations)?  loaded,TResult? Function( String message)?  erro,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  deleteMessaging,TResult? Function( List<UserConversation> conversations)?  loaded,TResult? Function( String message)?  erro,}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
-return loading();case _LoadedState() when loaded != null:
+return loading();case _DeleteMessagingState() when deleteMessaging != null:
+return deleteMessaging();case _LoadedState() when loaded != null:
 return loaded(_that.conversations);case _ErrorState() when erro != null:
 return erro(_that.message);case _:
   return null;
@@ -245,6 +251,38 @@ int get hashCode => runtimeType.hashCode;
 @override
 String toString() {
   return 'InboxState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _DeleteMessagingState implements InboxState {
+   _DeleteMessagingState();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _DeleteMessagingState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'InboxState.deleteMessaging()';
 }
 
 
