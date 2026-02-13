@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/features/messaging/domain/entities/user_conversation.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +11,14 @@ class InboxItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('/chat');
+        Navigator.of(context).pushNamed(
+          AppRoutes.chatPageRoute,
+          arguments: {
+            'conversationId': conversation.conversationId,
+            'otherUserId': conversation.otherUserId,
+            'otherUserName': conversation.otherUserName,
+          },
+        );
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -26,14 +34,14 @@ class InboxItemList extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Cleisinho',
+                        conversation.otherUserName,
                         style: context.textStyles.textMedium.copyWith(
                           color: Colors.white,
                           fontSize: 16,
                         ),
                       ),
                       Text(
-                        '10:00',
+                        _formatHour(conversation.lastMessageAt),
                         style: context.textStyles.textRegular.copyWith(
                           color: const Color.fromARGB(255, 184, 184, 184),
                           fontSize: 13,
@@ -42,7 +50,7 @@ class InboxItemList extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    'Hoje eu vou na academia sim',
+                    conversation.lastMessage,
                     style: context.textStyles.textRegular.copyWith(
                       color: const Color.fromARGB(255, 184, 184, 184),
                       fontSize: 13,
@@ -55,5 +63,11 @@ class InboxItemList extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatHour(DateTime dt) {
+    final h = dt.hour.toString().padLeft(2, '0');
+    final m = dt.minute.toString().padLeft(2, '0');
+    return '$h:$m';
   }
 }

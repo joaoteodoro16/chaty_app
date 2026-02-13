@@ -48,4 +48,5 @@ class DefaultFirebaseOptions {
     projectId: 'chaty-app-41520',
     storageBucket: 'chaty-app-41520.firebasestorage.app',
   );
+
 }

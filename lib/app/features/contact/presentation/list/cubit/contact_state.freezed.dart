@@ -134,7 +134,7 @@ return openChat(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Contact> contacts)?  loaded,TResult Function( String message)?  error,TResult Function()?  deletedContact,TResult Function( String conversationId)?  openChat,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( List<Contact> contacts)?  loaded,TResult Function( String message)?  error,TResult Function()?  deletedContact,TResult Function( String conversationId,  String otherUserId,  String otherUserName)?  openChat,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
@@ -142,7 +142,7 @@ return loading();case _LoadedState() when loaded != null:
 return loaded(_that.contacts);case _ErrorState() when error != null:
 return error(_that.message);case _DeletedContactState() when deletedContact != null:
 return deletedContact();case _OpenChatState() when openChat != null:
-return openChat(_that.conversationId);case _:
+return openChat(_that.conversationId,_that.otherUserId,_that.otherUserName);case _:
   return orElse();
 
 }
@@ -160,7 +160,7 @@ return openChat(_that.conversationId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Contact> contacts)  loaded,required TResult Function( String message)  error,required TResult Function()  deletedContact,required TResult Function( String conversationId)  openChat,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( List<Contact> contacts)  loaded,required TResult Function( String message)  error,required TResult Function()  deletedContact,required TResult Function( String conversationId,  String otherUserId,  String otherUserName)  openChat,}) {final _that = this;
 switch (_that) {
 case _InitialState():
 return initial();case _LoadingState():
@@ -168,7 +168,7 @@ return loading();case _LoadedState():
 return loaded(_that.contacts);case _ErrorState():
 return error(_that.message);case _DeletedContactState():
 return deletedContact();case _OpenChatState():
-return openChat(_that.conversationId);case _:
+return openChat(_that.conversationId,_that.otherUserId,_that.otherUserName);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -185,7 +185,7 @@ return openChat(_that.conversationId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Contact> contacts)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  deletedContact,TResult? Function( String conversationId)?  openChat,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( List<Contact> contacts)?  loaded,TResult? Function( String message)?  error,TResult? Function()?  deletedContact,TResult? Function( String conversationId,  String otherUserId,  String otherUserName)?  openChat,}) {final _that = this;
 switch (_that) {
 case _InitialState() when initial != null:
 return initial();case _LoadingState() when loading != null:
@@ -193,7 +193,7 @@ return loading();case _LoadedState() when loaded != null:
 return loaded(_that.contacts);case _ErrorState() when error != null:
 return error(_that.message);case _DeletedContactState() when deletedContact != null:
 return deletedContact();case _OpenChatState() when openChat != null:
-return openChat(_that.conversationId);case _:
+return openChat(_that.conversationId,_that.otherUserId,_that.otherUserName);case _:
   return null;
 
 }
@@ -439,10 +439,12 @@ String toString() {
 
 
 class _OpenChatState implements ContactState {
-   _OpenChatState({required this.conversationId});
+   _OpenChatState({required this.conversationId, required this.otherUserId, required this.otherUserName});
   
 
  final  String conversationId;
+ final  String otherUserId;
+ final  String otherUserName;
 
 /// Create a copy of ContactState
 /// with the given fields replaced by the non-null parameter values.
@@ -454,16 +456,16 @@ _$OpenChatStateCopyWith<_OpenChatState> get copyWith => __$OpenChatStateCopyWith
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OpenChatState&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OpenChatState&&(identical(other.conversationId, conversationId) || other.conversationId == conversationId)&&(identical(other.otherUserId, otherUserId) || other.otherUserId == otherUserId)&&(identical(other.otherUserName, otherUserName) || other.otherUserName == otherUserName));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,conversationId);
+int get hashCode => Object.hash(runtimeType,conversationId,otherUserId,otherUserName);
 
 @override
 String toString() {
-  return 'ContactState.openChat(conversationId: $conversationId)';
+  return 'ContactState.openChat(conversationId: $conversationId, otherUserId: $otherUserId, otherUserName: $otherUserName)';
 }
 
 
@@ -474,7 +476,7 @@ abstract mixin class _$OpenChatStateCopyWith<$Res> implements $ContactStateCopyW
   factory _$OpenChatStateCopyWith(_OpenChatState value, $Res Function(_OpenChatState) _then) = __$OpenChatStateCopyWithImpl;
 @useResult
 $Res call({
- String conversationId
+ String conversationId, String otherUserId, String otherUserName
 });
 
 
@@ -491,9 +493,11 @@ class __$OpenChatStateCopyWithImpl<$Res>
 
 /// Create a copy of ContactState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? conversationId = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? conversationId = null,Object? otherUserId = null,Object? otherUserName = null,}) {
   return _then(_OpenChatState(
 conversationId: null == conversationId ? _self.conversationId : conversationId // ignore: cast_nullable_to_non_nullable
+as String,otherUserId: null == otherUserId ? _self.otherUserId : otherUserId // ignore: cast_nullable_to_non_nullable
+as String,otherUserName: null == otherUserName ? _self.otherUserName : otherUserName // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

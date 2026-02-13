@@ -17,11 +17,11 @@ class ContactCubit extends Cubit<ContactState> {
     required GetContactsUsecase getContactsUsecase,
     required DeleteContactUsecase deleteContactUsecase,
     required GetOrCreateConversationUsecase getOrCreateConversationUsecase,
-  })  : _getContactsUsecase = getContactsUsecase,
-        _getUserLoggedUsecase = getUserLoggedUsecase,
-        _deleteContactUsecase = deleteContactUsecase,
-        _getOrCreateConversationUsecase = getOrCreateConversationUsecase,
-        super(ContactState.initial());
+  }) : _getContactsUsecase = getContactsUsecase,
+       _getUserLoggedUsecase = getUserLoggedUsecase,
+       _deleteContactUsecase = deleteContactUsecase,
+       _getOrCreateConversationUsecase = getOrCreateConversationUsecase,
+       super(ContactState.initial());
 
   Future<void> getContacts() async {
     try {
@@ -66,22 +66,25 @@ class ContactCubit extends Cubit<ContactState> {
   }) async {
     try {
       emit(ContactState.loading());
-
       final userLogged = await _getUserLoggedUsecase.call();
-
-      final myName = userLogged.name;
 
       final conversationId = await _getOrCreateConversationUsecase.call(
         myUid: userLogged.id!,
         otherUid: contactUserId,
-        myName: myName,
+        myName: userLogged.name, 
         otherName: contactName,
       );
 
-      emit(ContactState.openChat(conversationId: conversationId));
+      emit(
+        ContactState.openChat(
+          conversationId: conversationId,
+          otherUserId: contactUserId,
+          otherUserName: contactName,
+        ),
+      );
     } on AppException catch (e) {
       emit(ContactState.error(message: e.message));
-    } catch (e) {
+    } catch (_) {
       emit(
         ContactState.error(
           message: "Ocorreu um erro inesperado ao abrir a conversa",

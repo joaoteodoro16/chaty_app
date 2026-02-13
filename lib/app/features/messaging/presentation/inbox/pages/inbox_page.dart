@@ -12,8 +12,21 @@ import 'package:chaty_app/app/core/ui/widgets/search_text_form_field_widget.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class InboxPage extends StatelessWidget {
+class InboxPage extends StatefulWidget {
   const InboxPage({super.key});
+
+  @override
+  State<InboxPage> createState() => _InboxPageState();
+}
+
+class _InboxPageState extends State<InboxPage> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<InboxCubit>().subscribe();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +36,6 @@ class InboxPage extends StatelessWidget {
           loading: () => Loader.show(context),
           loaded: (conversations) {
             Loader.hide();
-            Navigator.of(context).pushNamedAndRemoveUntil(
-              AppRoutes.loginPageRoute,
-              (route) => false,
-            );
           },
           erro: (message) {
             Loader.hide();

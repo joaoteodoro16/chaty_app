@@ -12,32 +12,28 @@ class InboxListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocSelector<InboxCubit, InboxState, List<UserConversation>>(
       selector: (state) {
-        state.maybeWhen(
-          loaded: (conversations) {
-            return conversations;
-          },
-          orElse: (){
-            return [];
-          },
+        return state.maybeWhen(
+          loaded: (conversations) => conversations,
+          orElse: () => <UserConversation>[],
         );
-        return [];
       },
       builder: (context, conversations) {
         return ListView.separated(
           itemCount: conversations.length,
-          physics: NeverScrollableScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           separatorBuilder: (context, index) {
-            return Divider(
-              color: const Color.fromARGB(255, 43, 43, 43),
+            return const Divider(
+              color: Color.fromARGB(255, 43, 43, 43),
               height: .8,
             );
           },
           itemBuilder: (context, index) {
-            return InboxItemList(conversation: conversations[index],);
+            return InboxItemList(conversation: conversations[index]);
           },
         );
       },
     );
   }
 }
+

@@ -11,5 +11,10 @@ abstract class ContactState with _$ContactState {
   factory ContactState.error({required String message}) = _ErrorState;
   factory ContactState.deletedContact() = _DeletedContactState;
 
-  factory ContactState.openChat({required String conversationId}) = _OpenChatState;
+  factory ContactState.openChat({
+    required String conversationId,
+    required String otherUserId,
+    required String otherUserName,
+  }) = _OpenChatState;
 }
+

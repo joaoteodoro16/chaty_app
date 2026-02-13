@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/core/routes/app_routes.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
 import 'package:chaty_app/app/core/ui/widgets/messager.dart';
@@ -41,9 +42,18 @@ class _ContactsPageState extends State<ContactsPage> {
           deletedContact: () {
             Loader.hide();
           },
-          openChat: (conversationId) {
-            
+          openChat: (conversationId, otherUserId, otherUserName) {
+            Loader.hide();
+            Navigator.of(context).pushNamed(
+              AppRoutes.chatPageRoute,
+              arguments: {
+                'conversationId': conversationId,
+                'otherUserId': otherUserId,
+                'otherUserName': otherUserName,
+              },
+            );
           },
+
           orElse: () {},
         );
       },

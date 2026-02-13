@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
+import 'package:chaty_app/app/features/auth/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/features/messaging/domain/entities/user_conversation.dart';
 import 'package:chaty_app/app/features/messaging/domain/usecases/contracts/logout_usecase.dart';
 import 'package:chaty_app/app/features/messaging/domain/usecases/contracts/watch_user_conversations_usecase.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InboxCubit extends Cubit<InboxState> {
   final LogoutUsecase _logoutUsecase;
+  final GetUserLoggedUsecase _getUserLoggedUsecase;
   final WatchUserConversationsUsecase _watchUserConversationsUsecase;
 
   StreamSubscription<List<UserConversation>>? _subscription;
@@ -16,29 +18,24 @@ class InboxCubit extends Cubit<InboxState> {
   InboxCubit({
     required LogoutUsecase logoutUsecase,
     required WatchUserConversationsUsecase watchUserConversationsUsecase,
-  })  : _logoutUsecase = logoutUsecase,
-        _watchUserConversationsUsecase = watchUserConversationsUsecase,
-        super(InboxState.initial());
+    required GetUserLoggedUsecase getUserLoggedUsecase,
+  }) : _logoutUsecase = logoutUsecase,
+       _watchUserConversationsUsecase = watchUserConversationsUsecase,
+       _getUserLoggedUsecase = getUserLoggedUsecase,
+       super(InboxState.initial());
 
-  /// 🔥 Escuta inbox em tempo real
-  Future<void> subscribe({required String userId}) async {
+  Future<void> subscribe() async {
     try {
       emit(InboxState.loading());
 
       await _subscription?.cancel();
-
-      _subscription = _watchUserConversationsUsecase(
-        userId: userId,
-      ).listen(
+        final userLogged = await _getUserLoggedUsecase.call();
+      _subscription = _watchUserConversationsUsecase(userId: userLogged.id!).listen(
         (conversations) {
           emit(InboxState.loaded(conversations: conversations));
         },
         onError: (error) {
-          emit(
-            InboxState.erro(
-              message: 'Erro ao carregar conversas',
-            ),
-          );
+          emit(InboxState.erro(message: 'Erro ao carregar conversas'));
         },
       );
     } catch (e) {

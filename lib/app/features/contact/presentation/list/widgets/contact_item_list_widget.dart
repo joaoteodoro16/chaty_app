@@ -14,8 +14,12 @@ class ContactItemListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(AppRoutes.chatPageRoute);
+        context.read<ContactCubit>().openOrCreateConversation(
+          contactUserId: contact.contactUserId,
+          contactName: contact.name,
+        );
       },
+
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

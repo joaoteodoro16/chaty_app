@@ -27,6 +27,7 @@ class InboxProvider {
         create: (context) => InboxCubit(
           logoutUsecase: context.read(),
           watchUserConversationsUsecase: context.read(),
+          getUserLoggedUsecase: context.read()
         ),
       ),
     ],
