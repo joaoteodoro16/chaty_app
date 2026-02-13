@@ -3,6 +3,7 @@ import 'package:chaty_app/app/core/ui/styles/app_colors.dart';
 import 'package:chaty_app/app/core/ui/styles/app_text_styles.dart';
 import 'package:chaty_app/app/core/ui/widgets/loader.dart';
 import 'package:chaty_app/app/core/ui/widgets/messager.dart';
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:chaty_app/app/features/messaging/presentation/inbox/cubit/inbox_cubit.dart';
 import 'package:chaty_app/app/features/messaging/presentation/inbox/cubit/inbox_state.dart';
 import 'package:chaty_app/app/features/messaging/presentation/inbox/widgets/inbox_button_app_bar_widget.dart';
@@ -13,7 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class InboxPage extends StatefulWidget {
-  const InboxPage({super.key});
+  final UserAccount userLogged;
+  const InboxPage({super.key, required this.userLogged});
 
   @override
   State<InboxPage> createState() => _InboxPageState();
@@ -45,7 +47,7 @@ class _InboxPageState extends State<InboxPage> {
         );
       },
       child: Scaffold(
-        drawer: InboxDrawerWidget(),
+        drawer: InboxDrawerWidget(userLogged: widget.userLogged,),
         backgroundColor: AppColors.primaryBackGround,
         appBar: AppBar(
           backgroundColor: AppColors.primaryBackGround,

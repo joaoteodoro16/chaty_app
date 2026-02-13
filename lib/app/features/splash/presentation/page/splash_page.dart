@@ -31,8 +31,7 @@ class _SplashPageState extends State<SplashPage> {
             final route = user != null
                 ? AppRoutes.conversationsPageRoute
                 : AppRoutes.loginPageRoute;
-
-            Navigator.of(context).pushNamedAndRemoveUntil(route, (_) => false);
+            Navigator.of(context).pushNamedAndRemoveUntil(route, (_) => false, arguments: user);
           },
           error: (message) {
             context.toastError(message);

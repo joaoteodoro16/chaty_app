@@ -1,3 +1,4 @@
+import 'package:chaty_app/app/features/auth/domain/entities/user_account.dart';
 import 'package:chaty_app/app/features/messaging/data/datasources/remote/contracts/messaging_remote_datasource.dart';
 import 'package:chaty_app/app/features/messaging/data/datasources/remote/impl/messaging_remote_datasource_impl.dart';
 import 'package:chaty_app/app/features/messaging/data/repositories/messaging_repository_impl.dart';
@@ -31,6 +32,9 @@ class InboxProvider {
         ),
       ),
     ],
-    child: InboxPage(),
+    builder: (context, child) {
+      final args = ModalRoute.of(context)?.settings.arguments as UserAccount;
+      return InboxPage(userLogged: args,);
+    },
   );
 }

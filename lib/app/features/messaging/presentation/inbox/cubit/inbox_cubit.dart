@@ -29,15 +29,16 @@ class InboxCubit extends Cubit<InboxState> {
       emit(InboxState.loading());
 
       await _subscription?.cancel();
-        final userLogged = await _getUserLoggedUsecase.call();
-      _subscription = _watchUserConversationsUsecase(userId: userLogged!.id!).listen(
-        (conversations) {
-          emit(InboxState.loaded(conversations: conversations));
-        },
-        onError: (error) {
-          emit(InboxState.erro(message: 'Erro ao carregar conversas'));
-        },
-      );
+      final userLogged = await _getUserLoggedUsecase.call();
+      _subscription = _watchUserConversationsUsecase(userId: userLogged!.id!)
+          .listen(
+            (conversations) {
+              emit(InboxState.loaded(conversations: conversations));
+            },
+            onError: (error) {
+              emit(InboxState.erro(message: 'Erro ao carregar conversas'));
+            },
+          );
     } catch (e) {
       emit(
         InboxState.erro(
@@ -62,7 +63,7 @@ class InboxCubit extends Cubit<InboxState> {
       );
     }
   }
-
+  
   @override
   Future<void> close() async {
     await _subscription?.cancel();
