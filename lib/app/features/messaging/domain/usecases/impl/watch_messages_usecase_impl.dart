@@ -10,10 +10,12 @@ class WatchMessagesUsecaseImpl implements WatchMessagesUsecase {
 
   @override
   Stream<List<Message>> call({
+    required String myUid,
     required String conversationId,
     int limit = 50,
   }) {
     return _repo.watchMessages(
+      myUid: myUid,
       conversationId: conversationId,
       limit: limit,
     );

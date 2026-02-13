@@ -13,6 +13,8 @@ class SendMessageUsecaseImpl implements SendMessageUsecase {
     required String myUid,
     required String otherUid,
     required String text,
+    String? myName,
+    String? otherName,
   }) {
     return _repo.sendMessage(
       conversationId: conversationId,

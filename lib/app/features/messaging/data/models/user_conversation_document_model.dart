@@ -1,5 +1,5 @@
 class UserConversationDocumentModel {
-  final String id; // doc.id (conversationId)
+  final String id;
   final String conversationId;
   final String otherUserId;
   final String otherUserName;

@@ -46,11 +46,11 @@ class _LoginPageState extends State<LoginPage> {
       listener: (context, state) {
         state.maybeWhen(
           loading: () => Loader.show(context),
-          loaded: () {
+          loaded: (user) {
             Loader.hide();
             Navigator.of(
               context,
-            ).pushNamedAndRemoveUntil(AppRoutes.conversationsPageRoute, (route) => false);
+            ).pushNamedAndRemoveUntil(AppRoutes.conversationsPageRoute, (route) => false, arguments: user);
           },
           error: (message) {
             Loader.hide();

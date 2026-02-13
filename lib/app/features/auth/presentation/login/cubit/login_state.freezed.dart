@@ -128,12 +128,12 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( UserAccount user)?  loaded,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _LoginState() when initial != null:
 return initial();case _LoadingState() when loading != null:
 return loading();case _LoadedState() when loaded != null:
-return loaded();case _ErrorState() when error != null:
+return loaded(_that.user);case _ErrorState() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -152,12 +152,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  loaded,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( UserAccount user)  loaded,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case _LoginState():
 return initial();case _LoadingState():
 return loading();case _LoadedState():
-return loaded();case _ErrorState():
+return loaded(_that.user);case _ErrorState():
 return error(_that.message);case _:
   throw StateError('Unexpected subclass');
 
@@ -175,12 +175,12 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( UserAccount user)?  loaded,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case _LoginState() when initial != null:
 return initial();case _LoadingState() when loading != null:
 return loading();case _LoadedState() when loaded != null:
-return loaded();case _ErrorState() when error != null:
+return loaded(_that.user);case _ErrorState() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -257,33 +257,67 @@ String toString() {
 
 
 class _LoadedState implements LoginState {
-   _LoadedState();
+   _LoadedState({required this.user});
   
 
+ final  UserAccount user;
 
-
+/// Create a copy of LoginState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$LoadedStateCopyWith<_LoadedState> get copyWith => __$LoadedStateCopyWithImpl<_LoadedState>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadedState);
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _LoadedState&&(identical(other.user, user) || other.user == user));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode => Object.hash(runtimeType,user);
 
 @override
 String toString() {
-  return 'LoginState.loaded()';
+  return 'LoginState.loaded(user: $user)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class _$LoadedStateCopyWith<$Res> implements $LoginStateCopyWith<$Res> {
+  factory _$LoadedStateCopyWith(_LoadedState value, $Res Function(_LoadedState) _then) = __$LoadedStateCopyWithImpl;
+@useResult
+$Res call({
+ UserAccount user
+});
 
 
+
+
+}
+/// @nodoc
+class __$LoadedStateCopyWithImpl<$Res>
+    implements _$LoadedStateCopyWith<$Res> {
+  __$LoadedStateCopyWithImpl(this._self, this._then);
+
+  final _LoadedState _self;
+  final $Res Function(_LoadedState) _then;
+
+/// Create a copy of LoginState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? user = null,}) {
+  return _then(_LoadedState(
+user: null == user ? _self.user : user // ignore: cast_nullable_to_non_nullable
+as UserAccount,
+  ));
+}
+
+
+}
 
 /// @nodoc
 

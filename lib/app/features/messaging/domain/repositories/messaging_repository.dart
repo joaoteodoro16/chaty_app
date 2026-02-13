@@ -18,6 +18,7 @@ abstract class MessagingRepository {
 
   /// Mensagens em tempo real
   Stream<List<Message>> watchMessages({
+    required String myUid,
     required String conversationId,
     int limit = 50,
   });

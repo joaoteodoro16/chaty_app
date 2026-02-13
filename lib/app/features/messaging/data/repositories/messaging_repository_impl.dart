@@ -32,17 +32,18 @@ class MessagingRepositoryImpl implements MessagingRepository {
     int limit = 50,
   }) {
     return _remote
-        .watchUserConversations(userId: userId, limit: limit)
+        .watchUserConversations(myUid: userId, limit: limit)
         .map((docs) => docs.map(_userConversationFromDoc).toList());
   }
 
   @override
   Stream<List<Message>> watchMessages({
+    required String myUid,
     required String conversationId,
     int limit = 50,
   }) {
     return _remote
-        .watchMessages(conversationId: conversationId, limit: limit)
+        .watchMessages(conversationId: conversationId, limit: limit, myUid: myUid)
         .map((docs) => docs.map(_messageFromDoc).toList());
   }
 
@@ -52,6 +53,8 @@ class MessagingRepositoryImpl implements MessagingRepository {
     required String myUid,
     required String otherUid,
     required String text,
+    String? myName,
+    String? otherName,
   }) {
     return _remote.sendMessage(
       conversationId: conversationId,

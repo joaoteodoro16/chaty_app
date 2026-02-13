@@ -98,4 +98,10 @@ class FirebaseCloudClient implements CloudClient {
       return MapEntry(key, value);
     });
   }
+  
+  @override
+  String generateIdMessage({required String myUid}) {
+    final t = DateTime.now().microsecondsSinceEpoch;
+    return '${t}_$myUid';
+  }
 }

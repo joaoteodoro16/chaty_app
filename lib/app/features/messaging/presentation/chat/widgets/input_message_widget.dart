@@ -8,12 +8,16 @@ class InputMessageWidget extends StatefulWidget {
   final String conversationId;
   final String myUid;
   final String otherUid;
+  final String? myName;
+  final String? otherName;
 
   const InputMessageWidget({
     super.key,
     required this.conversationId,
     required this.myUid,
     required this.otherUid,
+    this.myName,
+    this.otherName,
   });
 
   @override
@@ -34,11 +38,13 @@ class _InputMessageWidgetState extends State<InputMessageWidget> {
     if (text.isEmpty) return;
 
     await context.read<ChatCubit>().send(
-          conversationId: widget.conversationId,
-          myUid: widget.myUid,
-          otherUid: widget.otherUid,
-          text: text,
-        );
+      conversationId: widget.conversationId,
+      myUid: widget.myUid,
+      otherUid: widget.otherUid,
+      text: text,
+      myName: widget.myName,
+      otherName: widget.otherName,
+    );
 
     _controller.clear();
   }
@@ -56,15 +62,18 @@ class _InputMessageWidgetState extends State<InputMessageWidget> {
                 height: 40,
                 child: TextFormField(
                   controller: _controller,
-                  style: context.textStyles.textRegular
-                      .copyWith(color: Colors.white),
+                  style: context.textStyles.textRegular.copyWith(
+                    color: Colors.white,
+                  ),
                   onFieldSubmitted: (_) => _send(),
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    contentPadding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
+                    ),
                   ),
                 ),
               ),

@@ -47,6 +47,13 @@ class _InboxPageState extends State<InboxPage> {
             Loader.hide();
             context.read<InboxCubit>().subscribe();
           },
+          logout: () {
+            Loader.hide();
+            Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRoutes.loginPageRoute,
+              (route) => false,
+            );
+          },
           orElse: () {},
         );
       },

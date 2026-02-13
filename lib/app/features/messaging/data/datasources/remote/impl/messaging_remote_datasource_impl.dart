@@ -32,7 +32,7 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
 
     final now = DateTime.now();
 
-    //Crie um documento base da conversa que ainda nao exise
+    //Crie um documento base da conversa que ainda nao existe
     final convoDoc = ConversationDocumentModel(
       id: convoId,
       participants: [myUid, otherUid],
@@ -42,41 +42,8 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
       lastSenderId: '',
     );
 
-    //Grava o documento base
+    //Grava o documento base (mas NÃO cria os inboxes ainda)
     await _cloud.setDoc(path: convoPath, data: convoDoc.toMap(), merge: false);
-
-    //Espelha o documento da conversa para ambos os usuarios trocando os ids das propiedades
-    final myInbox = UserConversationDocumentModel(
-      id: convoId,
-      conversationId: convoId,
-      otherUserId: otherUid,
-      otherUserName: otherName,
-      lastMessage: '',
-      lastMessageAt: now,
-    );
-
-    final otherInbox = UserConversationDocumentModel(
-      id: convoId,
-      conversationId: convoId,
-      otherUserId: myUid,
-      otherUserName: myName,
-      lastMessage: '',
-      lastMessageAt: now,
-    );
-
-    //Salva pra quem esta enviando
-    await _cloud.setDoc(
-      path: 'users/$myUid/conversations/$convoId',
-      data: myInbox.toMap(),
-      merge: true,
-    );
-
-    //Salva pra quem ta recebendo
-    await _cloud.setDoc(
-      path: 'users/$otherUid/conversations/$convoId',
-      data: otherInbox.toMap(),
-      merge: true,
-    );
 
     return convoId;
   }
@@ -84,12 +51,12 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
   //Esse método é responsável por criar a stream que vai ficar lendo quando tiver alterações no path de conversas do usuario
   @override
   Stream<List<UserConversationDocumentModel>> watchUserConversations({
-    required String userId,
+    required String myUid,
     int limit = 50,
   }) {
     return _cloud
         .collectionStream(
-          collectionPath: 'users/$userId/conversations',
+          collectionPath: 'users/$myUid/conversations',
           orderByField: 'lastMessageAt',
           descending: true,
           limit: limit,
@@ -104,12 +71,14 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
   //Esse método é responsavel por criar a Stream que vai ficar lendo as alterações nas mensagens de cada conversa
   @override
   Stream<List<MessageDocumentModel>> watchMessages({
+    required String myUid,
     required String conversationId,
     int limit = 50,
   }) {
     return _cloud
         .collectionStream(
-          collectionPath: 'conversations/$conversationId/messages',
+          collectionPath:
+              'users/$myUid/conversations/$conversationId/messages/',
           orderByField: 'sentAt',
           descending: true,
           limit: limit,
@@ -132,18 +101,45 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
     final trimmed = text.trim();
     if (trimmed.isEmpty) return;
 
-    // 1) cria a mensagem com id automático
-    await _cloud.addDoc(
-      collectionPath: 'conversations/$conversationId/messages',
-      data: MessageDocumentModel(
-        id: '', // id vem do Firestore (auto)
+    final idMessage = _cloud.generateIdMessage(myUid: myUid);
+
+    // Busca os nomes dos usuários automaticamente
+    String myName = '';
+    String otherName = '';
+
+    try {
+      final myUserDoc = await _cloud.getDoc(path: 'users/$myUid');
+      myName = myUserDoc?['name'] ?? '';
+
+      final otherUserDoc = await _cloud.getDoc(path: 'users/$otherUid');
+      otherName = otherUserDoc?['name'] ?? '';
+    } catch (e) {
+      // Se falhar, continua com strings vazias
+    }
+
+    // 1) Cria a mensagem para o meu usuario
+    await _cloud.setDoc(
+      path: 'users/$myUid/conversations/$conversationId/messages/$idMessage',
+      data: UserMessageDocumentModel(
+        id: idMessage,
         senderId: myUid,
         text: trimmed,
         sentAt: now,
       ).toMap(),
     );
 
-    // 2) atualiza metadados da conversa
+    // 2) Cria a mesma mensagem pro usuário que estou enviando
+    await _cloud.setDoc(
+      path: 'users/$otherUid/conversations/$conversationId/messages/$idMessage',
+      data: UserMessageDocumentModel(
+        id: idMessage,
+        senderId: myUid,
+        text: trimmed,
+        sentAt: now,
+      ).toMap(),
+    );
+
+    // 3) atualiza metadados da conversa principal
     await _cloud.setDoc(
       path: 'conversations/$conversationId',
       data: {
@@ -154,27 +150,29 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
       merge: true,
     );
 
-    //Inserindo mensagem na conversa do meu usuário
-    await _cloud.setDoc(
-      path: 'users/$myUid/conversations/$conversationId/messages',
-      data: UserMessageDocumentModel(
-        id: '',
-        senderId: myUid,
-        text: text,
-        sentAt: now,
-      ).toMap(),
-    );
-
-    // 3) atualiza inbox (espelho) dos dois
+    // 4) Cria/atualiza o inbox do meu usuário
     await _cloud.setDoc(
       path: 'users/$myUid/conversations/$conversationId',
-      data: {'lastMessage': trimmed, 'lastMessageAt': now},
+      data: {
+        'conversationId': conversationId,
+        'otherUserId': otherUid,
+        'otherUserName': otherName,
+        'lastMessage': trimmed,
+        'lastMessageAt': now,
+      },
       merge: true,
     );
 
+    // 5) Cria/atualiza o inbox do outro usuário
     await _cloud.setDoc(
       path: 'users/$otherUid/conversations/$conversationId',
-      data: {'lastMessage': trimmed, 'lastMessageAt': now},
+      data: {
+        'conversationId': conversationId,
+        'otherUserId': myUid,
+        'otherUserName': myName,
+        'lastMessage': trimmed,
+        'lastMessageAt': now,
+      },
       merge: true,
     );
   }
@@ -182,9 +180,19 @@ class MessagingRemoteDatasourceImpl implements MessagingRemoteDatasource {
   @override
   Future<void> deleteConversation({
     required String myUid,
-    required conversationId,
+    required String conversationId,
   }) async {
-    final path = "users/$myUid/conversations/$conversationId";
-    await _cloud.deleteDoc(path: path);
+    // Apaga apenas o documento de inbox do usuário
+    // A conversa principal em 'conversations/$conversationId' continua existindo
+    // As mensagens em 'users/$myUid/conversations/$conversationId/messages/' também são apagadas
+
+    final conversationPath = "users/$myUid/conversations/$conversationId";
+
+    // 1) Apaga todas as mensagens da subcoleção
+    final messagesPath = "$conversationPath/messages";
+    await _cloud.deleteDoc(path: messagesPath);
+
+    // 2) Apaga o documento da conversa do inbox do usuário
+    await _cloud.deleteDoc(path: conversationPath);
   }
 }

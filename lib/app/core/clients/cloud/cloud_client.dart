@@ -31,8 +31,9 @@ abstract class CloudClient {
     required String collectionPath,
     required Map<String, dynamic> data,
   });
-}
 
+  String generateIdMessage({required String myUid});
+}
 
 class CloudDoc {
   final String id;

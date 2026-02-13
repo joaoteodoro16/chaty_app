@@ -76,7 +76,7 @@ class InboxCubit extends Cubit<InboxState> {
     try {
       emit(InboxState.loading());
       await _logoutUsecase.call();
-      emit(InboxState.loaded(conversations: []));
+      emit(InboxState.logout());
     } on AppException catch (e) {
       emit(InboxState.erro(message: e.message));
     } catch (e) {

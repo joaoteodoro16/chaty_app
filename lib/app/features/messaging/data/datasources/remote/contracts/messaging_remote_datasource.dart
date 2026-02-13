@@ -12,13 +12,14 @@ abstract class MessagingRemoteDatasource {
 
   /// Inbox do usuário em tempo real
   Stream<List<UserConversationDocumentModel>> watchUserConversations({
-    required String userId,
+    required String myUid,
     int limit = 50,
   });
 
   /// Mensagens em tempo real
   Stream<List<MessageDocumentModel>> watchMessages({
     required String conversationId,
+    required String myUid,
     int limit = 50,
   });
 
@@ -30,5 +31,8 @@ abstract class MessagingRemoteDatasource {
     required String text,
   });
 
-  Future<void> deleteConversation({required String myUid, required conversationId});
+  Future<void> deleteConversation({
+    required String myUid,
+    required String conversationId,
+  });
 }

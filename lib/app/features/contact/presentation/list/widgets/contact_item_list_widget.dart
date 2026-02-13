@@ -20,7 +20,6 @@ class ContactItemListWidget extends StatelessWidget {
           contactName: contact.name,
         );
       },
-
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

@@ -8,9 +8,11 @@ abstract class InboxState with _$InboxState {
   factory InboxState.initial() = _InitialState;
   factory InboxState.loading() = _LoadingState;
   factory InboxState.deleteMessaging() = _DeleteMessagingState;
+  factory InboxState.logout() = _LogoutState;
 
   factory InboxState.loaded({required List<UserConversation> conversations}) =
       _LoadedState;
+
 
   factory InboxState.erro({required String message}) = _ErrorState;
 }

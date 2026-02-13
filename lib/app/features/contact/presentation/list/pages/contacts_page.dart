@@ -42,9 +42,10 @@ class _ContactsPageState extends State<ContactsPage> {
           deletedContact: () {
             Loader.hide();
           },
-          openChat: (conversationId, otherUserId, otherUserName) {
+          openChat: (conversationId, otherUserId, otherUserName) async{
+            final cubit  = context.read<ContactCubit>();
             Loader.hide();
-            Navigator.of(context).pushNamed(
+            await Navigator.of(context).pushNamed(
               AppRoutes.chatPageRoute,
               arguments: {
                 'conversationId': conversationId,
@@ -52,6 +53,7 @@ class _ContactsPageState extends State<ContactsPage> {
                 'otherUserName': otherUserName,
               },
             );
+            cubit.getContacts();
           },
 
           orElse: () {},
