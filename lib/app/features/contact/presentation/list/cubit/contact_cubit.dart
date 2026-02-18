@@ -1,5 +1,6 @@
 import 'package:chaty_app/app/features/auth/domain/usecases/contracts/get_user_logged_usecase.dart';
 import 'package:chaty_app/app/core/exceptions/exeptions.dart';
+import 'package:chaty_app/app/features/contact/domain/entities/contact.dart';
 import 'package:chaty_app/app/features/contact/domain/usecases/contracts/delete_contact_usecase.dart';
 import 'package:chaty_app/app/features/contact/domain/usecases/contracts/get_contacts_usecase.dart';
 import 'package:chaty_app/app/features/contact/presentation/list/cubit/contact_state.dart';
@@ -23,11 +24,14 @@ class ContactCubit extends Cubit<ContactState> {
        _getOrCreateConversationUsecase = getOrCreateConversationUsecase,
        super(ContactState.initial());
 
+  List<Contact> _allContacts = [];
+
   Future<void> getContacts() async {
     try {
       emit(ContactState.loading());
       final userLogged = await _getUserLoggedUsecase.call();
       final contacts = await _getContactsUsecase.call(userId: userLogged!.id!);
+      _allContacts = contacts;
       emit(ContactState.loaded(contacts: contacts));
     } on AppException catch (e) {
       emit(ContactState.error(message: e.message));
@@ -38,6 +42,20 @@ class ContactCubit extends Cubit<ContactState> {
         ),
       );
     }
+  }
+
+  void filterContactsByName({required String name}) {
+    final filtered = _allContacts
+        .where(
+          (contact) => contact.name.toLowerCase().contains(name.toLowerCase()),
+        )
+        .toList();
+
+    emit(ContactState.loaded(contacts: filtered));
+  }
+
+  void clearFilter() {
+    emit(ContactState.loaded(contacts: _allContacts));
   }
 
   Future<void> deleteContact({required String contactUserId}) async {
@@ -71,7 +89,7 @@ class ContactCubit extends Cubit<ContactState> {
       final conversationId = await _getOrCreateConversationUsecase.call(
         myUid: userLogged!.id!,
         otherUid: contactUserId,
-        myName: userLogged.name, 
+        myName: userLogged.name,
         otherName: contactName,
       );
 
