@@ -9,7 +9,6 @@ import 'package:chaty_app/app/features/messaging/presentation/inbox/cubit/inbox_
 import 'package:chaty_app/app/features/messaging/presentation/inbox/widgets/inbox_button_app_bar_widget.dart';
 import 'package:chaty_app/app/features/messaging/presentation/inbox/widgets/inbox_drawer_widget.dart';
 import 'package:chaty_app/app/features/messaging/presentation/inbox/widgets/inbox_list_widget.dart';
-import 'package:chaty_app/app/core/ui/widgets/search_text_form_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -84,8 +83,6 @@ class _InboxPageState extends State<InboxPage> {
                     fontSize: 30,
                   ),
                 ),
-                const SizedBox(height: 8),
-                SearchTextFormFieldWidget(hint: 'Pesquisar contatos'),
                 const SizedBox(height: 10),
                 InboxListWidget(),
               ],

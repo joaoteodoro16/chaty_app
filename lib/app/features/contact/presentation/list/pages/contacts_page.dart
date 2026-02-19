@@ -18,12 +18,23 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
+  late ContactCubit _cubit;
+  final _nameEC = TextEditingController();
+
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<ContactCubit>().getContacts();
+      _cubit = context.read<ContactCubit>();
+      _cubit.getContacts();
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _nameEC.dispose();
+    super.dispose();
   }
 
   @override
@@ -42,8 +53,8 @@ class _ContactsPageState extends State<ContactsPage> {
           deletedContact: () {
             Loader.hide();
           },
-          openChat: (conversationId, otherUserId, otherUserName) async{
-            final cubit  = context.read<ContactCubit>();
+          openChat: (conversationId, otherUserId, otherUserName) async {
+            final cubit = context.read<ContactCubit>();
             Loader.hide();
             await Navigator.of(context).pushNamed(
               AppRoutes.chatPageRoute,
@@ -69,7 +80,17 @@ class _ContactsPageState extends State<ContactsPage> {
             children: [
               AddContactButtonWidget(),
               const SizedBox(height: 10),
-              SearchTextFormFieldWidget(hint: 'Pesquisar contatos por nome'),
+              SearchTextFormFieldWidget(
+                hint: 'Pesquisar contatos por nome',
+                controller: _nameEC,
+                onChanged: (name) {
+                  if(name.isEmpty){
+                    _cubit.clearFilter();
+                  }else{
+                    _cubit.filterContactsByName(name: name);
+                  }
+                },
+              ),
               const SizedBox(height: 10),
               ContactListWidget(),
             ],
