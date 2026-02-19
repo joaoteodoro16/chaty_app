@@ -79,16 +79,7 @@ class _SignupPageState extends State<SignupPage> {
                   const SizedBox(height: 10),
                   PasswordTextFormField(controller: _passwordEC),
                   const SizedBox(height: 10),
-                  AppTextFormField(
-                    label: 'Confirmar senha',
-                    validator: Validatorless.multiple([
-                      Validatorless.required("Campo obrigatório!"),
-                      Validatorless.compare(
-                        _passwordEC,
-                        "As senhas devem ser iguais!",
-                      ),
-                    ]),
-                  ),
+                  PasswordTextFormField(compareController: _passwordEC),
                   const SizedBox(height: 15),
                   AppButton.primary(
                     title: 'Confirmar',

@@ -3,24 +3,36 @@ import 'package:flutter/material.dart';
 import 'package:validatorless/validatorless.dart';
 
 class PasswordTextFormField extends AppTextFormField {
-  final bool validateLength;
-
   PasswordTextFormField({
     super.key,
-    this.validateLength = false,
+    bool validateLength = false,
     super.controller,
-    super.label = 'Senha',
+    TextEditingController? compareController,
   }) : super(
+         label: compareController != null ? "Confirmar senha" : "Senha",
          obscureText: true,
-         validator: Validatorless.multiple(_buildValidators(validateLength)),
-         prefixIcon: Icons.lock_sharp
+         prefixIcon: Icons.lock_sharp,
+         validator: Validatorless.multiple(
+           _buildValidators(
+             validateLength: validateLength,
+             compareController: compareController,
+           ),
+         ),
        );
-  static List<String? Function(String?)> _buildValidators(bool validateLength) {
+
+  static List<String? Function(String?)> _buildValidators({
+    required bool validateLength,
+    required TextEditingController? compareController,
+  }) {
     final validators = <String? Function(String?)>[];
 
     validators.add(Validatorless.required("Campo obrigatório!"));
 
-    if (validateLength) {
+    if (compareController != null) {
+      validators.add(
+        Validatorless.compare(compareController, "As senhas devem ser iguais!"),
+      );
+    } else if (validateLength) {
       validators.add(
         Validatorless.min(6, "A senha deve ter pelo menos 6 caracteres!"),
       );
