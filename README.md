@@ -114,7 +114,7 @@ Este projeto foi criado para estudo de:
 
 ## Estrutura de pastas
 <details>
-     <summary> Click to expand </summary>
+     <summary> Clique para expandir </summary>
 
 ```
 lib                                                                
