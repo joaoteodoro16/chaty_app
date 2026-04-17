@@ -5,7 +5,7 @@
 
 # Chaty
 
-## Aplicativo de chat em tempo real desenvolvido com **Flutter** utilizando **Firebase**, com foco em **boas práticas de arquitetura**, escalabilidade e organização de código. Este projeto foi criado com fins de **estudo**, aplicando conceitos modernos como **Clean Architecture**, **BLoC/Cubit**, **Provider** e integração com **Firebase**.
+## A real-time chat application built with **Flutter** using **Firebase**, focused on **architecture best practices**, scalability, and code organization. This project was created for **study purposes**, applying modern concepts such as **Clean Architecture**, **BLoC/Cubit**, **Provider**, and **Firebase** integration.
 
 <br>
 <p align="center">
@@ -17,17 +17,17 @@
 </p>
 
 
-## Funcionalidades
-- ✅ Autenticação com email e senha (Firebase Auth)
-- ✅ Cadastro de contatos através do email
-- ✅ Envio de mensagens em tempo real
-- ✅ Inbox com lista de conversas
-- ✅ Criação automática de conversa ao enviar mensagem
-- ✅ Persistência de sessão
+## Features
+- ✅ Email and password authentication (Firebase Auth)
+- ✅ Add contacts by email
+- ✅ Real-time message sending
+- ✅ Inbox with conversation list
+- ✅ Automatic conversation creation on first message
+- ✅ Session persistence
 
-## Dependencias
+## Dependencies
 <details>
-     <summary> Ler mais </summary>
+     <summary> Read more </summary>
 
 * [provider](https://pub.dev/packages/provider)
 * [bloc](https://pub.dev/packages/bloc)
@@ -41,80 +41,80 @@
 
     </details>
 
-## 🧠 Arquitetura utilizada
+## 🧠 Architecture
 
-O projeto utiliza:
+The project uses:
 
 ### Clean Architecture + Feature First
 
-Estrutura organizada em camadas:
+Structure organized in layers:
 
 ```
 features/
 ├ presentation → UI, Cubits, Pages
-├ domain → Entities, Usecases, Contracts
-└ data → Repositories, Datasources, Models
+├ domain       → Entities, Usecases, Contracts
+└ data         → Repositories, Datasources, Models
 ```
 
 
-## Como rodar o projeto
+## How to run the project
 
-### 🔥 Configuração do Firebase
+### 🔥 Firebase Setup
 
-Necessário realizar a confirugação do Firebase no projeto, pra isso pode seguir essa documentação: https://firebase.google.com/docs/flutter/setup?hl=pt-br&platform=ios
+You need to configure Firebase in the project. Follow the official documentation: https://firebase.google.com/docs/flutter/setup?hl=en&platform=ios
 
 
-### 1 - Clone o repositório
+### 1 - Clone the repository
 ```
-git clone https://github.com/seuusuario/chatty_app.git
+git clone https://github.com/yourusername/chatty_app.git
 ```
 
-### 2 - Instale as dependências
+### 2 - Install dependencies
 ```
 flutter pub get
 ```
 
-### 3 - Execute o build_runner
+### 3 - Run build_runner
 ```
 dart run build_runner watch --delete-conflicting-outputs
 ```
 
-### 5 - Execute o projeto
+### 4 - Run the project
 
 ```
 flutter run
 ```
 
-## 🧪 Fluxo do app
+## 🧪 App Flow
 
-1 - Usuário cria conta
+1 - User creates an account
 
-2 - Usuário adiciona contato pelo email
+2 - User adds a contact by email
 
-3 - Usuário inicia conversa
+3 - User starts a conversation
 
-4 - Usuário envia mensagens em tempo real
+4 - User sends real-time messages
 
-## 🎯 Objetivo do projeto
+## 🎯 Project Goals
 
-Este projeto foi criado para estudo de:
+This project was created to study:
 
-- Arquitetura limpa
+- Clean Architecture
 - Firebase
-- Chat em tempo real
-- Boas práticas Flutter
+- Real-time chat
+- Flutter best practices
 
-## 📚 Aprendizados aplicados
+## 📚 Applied Learnings
 
-- Separação de responsabilidades
-- Código escalável
-- Organização profissional
-- Arquitetura enterprise
+- Separation of concerns
+- Scalable code
+- Professional organization
+- Enterprise-level architecture
 
 
-## Estrutura de pastas
+## Folder Structure
 <details>
-     <summary> Clique para expandir </summary>
+     <summary> Click to expand </summary>
 
 ```
 lib                                                                
